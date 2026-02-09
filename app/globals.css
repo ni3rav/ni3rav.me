@@ -3,73 +3,63 @@
 @tailwind utilities;
 
 :root {
-  /* Catppuccin Mocha - Base Colors (RGB values for alpha support) */
-  --ctp-rosewater: 245 224 220;
-  --ctp-flamingo: 242 205 205;
-  --ctp-pink: 245 194 231;
-  --ctp-mauve: 203 166 247;
-  --ctp-red: 243 139 168;
-  --ctp-maroon: 235 160 172;
-  --ctp-peach: 250 179 135;
-  --ctp-yellow: 249 226 175;
-  --ctp-green: 166 227 161;
-  --ctp-teal: 148 226 213;
-  --ctp-sky: 137 220 235;
-  --ctp-sapphire: 116 199 236;
-  --ctp-blue: 137 180 250;
-  --ctp-lavender: 180 190 254;
-
-  /* Catppuccin Mocha - Surface Colors */
-  --ctp-text: 205 214 244;
-  --ctp-subtext1: 186 194 222;
-  --ctp-subtext0: 166 173 200;
-  --ctp-overlay2: 147 153 178;
-  --ctp-overlay1: 127 132 156;
-  --ctp-overlay0: 108 112 134;
-  --ctp-surface2: 88 91 112;
-  --ctp-surface1: 69 71 90;
-  --ctp-surface0: 49 50 68;
-  --ctp-base: 30 30 46;
-  --ctp-mantle: 24 24 37;
-  --ctp-crust: 17 17 27;
+  /* Oxocarbon Dark - Base Colors (RGB values for alpha support) */
+  --oxo-base00: 22 22 22;      /* #161616 - background */
+  --oxo-base01: 38 38 38;      /* #262626 - surface */
+  --oxo-base02: 57 57 57;      /* #393939 - surface bright */
+  --oxo-base03: 82 82 82;      /* #525252 - overlay */
+  --oxo-base04: 221 225 230;   /* #dde1e6 - subtext */
+  --oxo-base05: 242 244 248;   /* #f2f4f8 - text */
+  --oxo-base06: 255 255 255;   /* #ffffff - bright text */
+  
+  /* Oxocarbon Accent Colors */
+  --oxo-teal: 8 189 186;       /* #08bdba - teal */
+  --oxo-cyan: 61 219 217;      /* #3ddbd9 - cyan */
+  --oxo-blue: 120 169 255;     /* #78a9ff - blue */
+  --oxo-pink: 238 83 150;      /* #ee5396 - pink */
+  --oxo-sky: 51 177 255;       /* #33b1ff - sky blue */
+  --oxo-magenta: 255 126 182;  /* #ff7eb6 - magenta */
+  --oxo-green: 66 190 101;     /* #42be65 - green */
+  --oxo-purple: 190 149 255;   /* #be95ff - purple */
+  --oxo-lightblue: 130 207 255; /* #82cfff - light blue */
 
   /* Semantic Color Tokens */
-  --background: var(--ctp-base);
-  --foreground: var(--ctp-text);
-  --card: var(--ctp-surface0);
-  --card-foreground: var(--ctp-text);
-  --popover: var(--ctp-surface0);
-  --popover-foreground: var(--ctp-text);
-  --primary: var(--ctp-mauve);
-  --primary-foreground: var(--ctp-crust);
-  --secondary: var(--ctp-surface1);
-  --secondary-foreground: var(--ctp-text);
-  --muted: var(--ctp-surface0);
-  --muted-foreground: var(--ctp-subtext0);
-  --accent: var(--ctp-mauve);
-  --accent-foreground: var(--ctp-crust);
-  --destructive: var(--ctp-red);
-  --destructive-foreground: var(--ctp-crust);
-  --border: var(--ctp-surface1);
-  --input: var(--ctp-surface1);
-  --ring: var(--ctp-mauve);
+  --background: var(--oxo-base00);
+  --foreground: var(--oxo-base05);
+  --card: var(--oxo-base01);
+  --card-foreground: var(--oxo-base05);
+  --popover: var(--oxo-base01);
+  --popover-foreground: var(--oxo-base05);
+  --primary: var(--oxo-blue);
+  --primary-foreground: var(--oxo-base00);
+  --secondary: var(--oxo-base02);
+  --secondary-foreground: var(--oxo-base05);
+  --muted: var(--oxo-base01);
+  --muted-foreground: var(--oxo-base04);
+  --accent: var(--oxo-blue);
+  --accent-foreground: var(--oxo-base00);
+  --destructive: var(--oxo-pink);
+  --destructive-foreground: var(--oxo-base00);
+  --border: var(--oxo-base02);
+  --input: var(--oxo-base02);
+  --ring: var(--oxo-blue);
 
   /* Chart Colors */
-  --chart-1: var(--ctp-mauve);
-  --chart-2: var(--ctp-blue);
-  --chart-3: var(--ctp-green);
-  --chart-4: var(--ctp-peach);
-  --chart-5: var(--ctp-pink);
+  --chart-1: var(--oxo-blue);
+  --chart-2: var(--oxo-cyan);
+  --chart-3: var(--oxo-green);
+  --chart-4: var(--oxo-pink);
+  --chart-5: var(--oxo-teal);
 
   /* Sidebar */
-  --sidebar-background: var(--ctp-mantle);
-  --sidebar-foreground: var(--ctp-text);
-  --sidebar-primary: var(--ctp-mauve);
-  --sidebar-primary-foreground: var(--ctp-crust);
-  --sidebar-accent: var(--ctp-surface1);
-  --sidebar-accent-foreground: var(--ctp-text);
-  --sidebar-border: var(--ctp-surface0);
-  --sidebar-ring: var(--ctp-mauve);
+  --sidebar-background: var(--oxo-base00);
+  --sidebar-foreground: var(--oxo-base05);
+  --sidebar-primary: var(--oxo-blue);
+  --sidebar-primary-foreground: var(--oxo-base00);
+  --sidebar-accent: var(--oxo-base02);
+  --sidebar-accent-foreground: var(--oxo-base05);
+  --sidebar-border: var(--oxo-base01);
+  --sidebar-ring: var(--oxo-blue);
 
   --radius: 0.5rem;
 }
@@ -114,7 +104,7 @@ body {
 }
 
 .prose code:not([data-highlighted]) {
-  @apply px-1.5 py-0.5 rounded text-sm bg-surface0 text-mauve;
+  @apply px-1.5 py-0.5 rounded text-sm bg-surface text-purple;
 }
 
 /* Code block styles */

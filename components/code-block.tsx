@@ -24,7 +24,7 @@ export function CodeBlock({
       const { codeToHtml } = await import("shiki");
       const html = await codeToHtml(code, {
         lang: language,
-        theme: "catppuccin-mocha",
+        theme: "github-dark",
       });
       setHighlightedCode(html);
     }

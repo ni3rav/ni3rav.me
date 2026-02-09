@@ -8,13 +8,13 @@ export const size = {
 };
 export const contentType = "image/png";
 
-// Catppuccin Mocha colors
+// Oxocarbon Dark colors
 const colors = {
-  base: "#1e1e2e",
-  text: "#cdd6f4",
-  subtext0: "#a6adc8",
-  overlay0: "#6c7086",
-  mauve: "#cba6f7",
+  base: "#161616",
+  text: "#f2f4f8",
+  subtext: "#dde1e6",
+  overlay: "#525252",
+  accent: "#78a9ff",
 };
 
 export default async function Image() {
@@ -41,22 +41,22 @@ export default async function Image() {
             lineHeight: 1.1,
           }}
         >
-          hi, i'm <span style={{ color: colors.mauve }}>nirav</span>
+          hi, i'm <span style={{ color: colors.accent }}>nirav</span>
         </div>
         <div
           style={{
             fontSize: 40,
-            color: colors.subtext0,
+            color: colors.subtext,
             marginBottom: 10,
           }}
         >
-          fullstack <span style={{ color: colors.mauve }}>developer</span> and{" "}
-          <span style={{ color: colors.mauve }}>computer science junior</span>
+          fullstack <span style={{ color: colors.accent }}>developer</span> and{" "}
+          <span style={{ color: colors.accent }}>computer science junior</span>
         </div>
         <div
           style={{
             fontSize: 32,
-            color: colors.overlay0,
+            color: colors.overlay,
             fontStyle: "italic",
           }}
         >
@@ -68,7 +68,7 @@ export default async function Image() {
             bottom: 60,
             right: 80,
             fontSize: 28,
-            color: colors.overlay0,
+            color: colors.overlay,
           }}
         >
           ni3rav.me
