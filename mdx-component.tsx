@@ -1,3 +1,4 @@
+// i used shiki js for code highlighting haha
 import type { MDXComponents } from "mdx/types";
 import { CodeBlock } from "@/components/code-block";
 import React, { Children, type ComponentPropsWithoutRef } from "react";
