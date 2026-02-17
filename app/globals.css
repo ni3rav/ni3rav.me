@@ -132,7 +132,32 @@ hr.dashed {
 
 /* Code block styles */
 .prose pre {
-  @apply my-6 rounded-lg overflow-hidden;
+  @apply my-6 rounded-lg overflow-x-auto;
+}
+
+.prose pre code {
+  white-space: pre;
+}
+
+.prose pre::-webkit-scrollbar {
+  height: var(--sb-size);
+}
+
+.prose pre::-webkit-scrollbar-track {
+  background: var(--sb-track-color);
+  border-radius: 9px;
+}
+
+.prose pre::-webkit-scrollbar-thumb {
+  background: var(--sb-thumb-color);
+  border-radius: 9px;
+}
+
+@supports not selector(::-webkit-scrollbar) {
+  .prose pre {
+    scrollbar-color: var(--sb-thumb-color) var(--sb-track-color);
+    scrollbar-width: thin;
+  }
 }
 
 /* Responsive adjustments */
@@ -150,5 +175,34 @@ hr.dashed {
 @media (max-width: 768px) {
   .fixed.left-0 {
     @apply hidden;
+  }
+}
+
+
+body {
+  --sb-track-color: #232e3300;
+  --sb-thumb-color: #ffffff28;
+  --sb-size: 4px;
+}
+
+body::-webkit-scrollbar {
+  width: var(--sb-size)
+}
+
+body::-webkit-scrollbar-track {
+  background: var(--sb-track-color);
+  border-radius: 9px;
+}
+
+body::-webkit-scrollbar-thumb {
+  background: var(--sb-thumb-color);
+  border-radius: 9px;
+  
+}
+
+@supports not selector(::-webkit-scrollbar) {
+  body {
+    scrollbar-color: var(--sb-thumb-color)
+                     var(--sb-track-color);
   }
 }

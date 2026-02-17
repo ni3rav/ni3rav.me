@@ -94,7 +94,7 @@ export default async function Projects({
                 ← prev
               </Link>
             ) : (
-              <span />
+              <span className="text-xs text-muted-foreground/30 cursor-not-allowed select-none">← prev</span>
             )}
             <span className="text-xs text-muted-foreground">
               {currentPage} / {totalPages}
@@ -107,7 +107,7 @@ export default async function Projects({
                 next →
               </Link>
             ) : (
-              <span />
+              <span className="text-xs text-muted-foreground/30 cursor-not-allowed select-none">next →</span>
             )}
           </div>
         </>
