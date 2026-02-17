@@ -71,7 +71,7 @@ export default async function BlogPost({
         image={data.image}
         url={`/blogs/${params.slug}`}
       />
-      <main>
+      <main className="min-h-[90vh]">
         <Navbar />
 
         <section className="pb-16">

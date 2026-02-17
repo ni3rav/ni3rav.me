@@ -63,7 +63,7 @@ export default async function ProjectDetail({
   const { data, content } = matter(file);
 
   return (
-    <main>
+    <main className="min-h-[90vh]">
       <Navbar />
 
       <article className="pb-16">

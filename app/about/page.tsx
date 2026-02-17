@@ -13,18 +13,18 @@ export const metadata = constructMetadata({
 
 export default function AboutMe() {
   return (
-    <main>
+    <main className="min-h-[90vh]">
       <Navbar />
 
       {/* About Header */}
-      <section className="pb-8">
+      <section className="pb-6">
         <h1 className="text-lg font-medium mb-2">about</h1>
         <p className="text-sm text-muted-foreground">
           get to know me and my work
         </p>
       </section>
 
-      <hr className="dashed" />
+      <div className="w-full border-t border-dashed border-base02" />
 
       {/* Bio */}
       <section className="py-10 grid grid-cols-1 md:grid-cols-[1fr_auto] gap-10">
@@ -69,7 +69,7 @@ export default function AboutMe() {
         </div>
       </section>
 
-      <hr className="dashed" />
+      <div className="w-full border-t border-dashed border-base02" />
 
       {/* Skills */}
       <section className="py-10">
@@ -95,7 +95,7 @@ export default function AboutMe() {
         </div>
       </section>
 
-      <hr className="dashed" />
+      <div className="w-full border-t border-dashed border-base02" />
 
       {/* Achievements */}
       <section className="py-10" id="achievements">
@@ -122,7 +122,7 @@ export default function AboutMe() {
         </div>
       </section>
 
-      <hr className="dashed" />
+      <div className="w-full border-t border-dashed border-base02" />
 
       {/* Experience */}
       <section className="py-10" id="experience">
@@ -143,7 +143,7 @@ export default function AboutMe() {
         </div>
       </section>
 
-      <hr className="dashed" />
+      <div className="w-full border-t border-dashed border-base02" />
 
       {/* Education */}
       <section className="py-10">

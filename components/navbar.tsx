@@ -5,7 +5,6 @@ import { useState } from "react";
 import { Menu, X } from "lucide-react";
 
 const navLinks = [
-  { href: "/", label: "home" },
   { href: "/projects", label: "projects" },
   { href: "/blogs", label: "blog" },
   { href: "/about", label: "about" },
@@ -17,7 +16,7 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <nav className="py-8">
+    <nav className="py-6 sm:py-8">
       <div className="flex justify-between items-center">
         <Link
           href="/"
@@ -28,7 +27,7 @@ export default function Navbar() {
 
         {/* Mobile menu button */}
         <button
-          className="md:hidden text-muted-foreground hover:text-foreground transition-colors"
+          className="sm:hidden text-muted-foreground hover:text-foreground transition-colors"
           onClick={() => setIsOpen(!isOpen)}
           aria-label={isOpen ? "Close menu" : "Open menu"}
         >
@@ -36,12 +35,12 @@ export default function Navbar() {
         </button>
 
         {/* Desktop navigation */}
-        <div className="hidden md:flex items-center gap-6">
-          {navLinks.slice(1).map(({ href, label }) => (
+        <div className="hidden sm:flex items-center gap-5 sm:gap-6">
+          {navLinks.map(({ href, label }) => (
             <Link
               key={href}
               href={href}
-              className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+              className="text-xs sm:text-sm text-muted-foreground hover:text-foreground transition-colors"
             >
               {label}
             </Link>
@@ -51,8 +50,8 @@ export default function Navbar() {
 
       {/* Mobile navigation */}
       {isOpen && (
-        <div className="md:hidden mt-4 flex flex-col gap-3 dashed-border-t pt-4">
-          {navLinks.slice(1).map(({ href, label }) => (
+        <div className="sm:hidden mt-4 flex flex-col gap-3 dashed-border-t pt-4">
+          {navLinks.map(({ href, label }) => (
             <Link
               key={href}
               href={href}

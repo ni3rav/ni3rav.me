@@ -38,32 +38,30 @@ const socials = [
 
 export default function Home() {
   return (
-    <main className="py-20">
+    <main className="min-h-[90vh] flex flex-col justify-center py-16 sm:py-24">
       {/* Intro */}
       <section>
-        <h1 className="text-lg font-medium mb-2">nirav</h1>
-        <p className="text-sm text-muted-foreground leading-relaxed max-w-md">
+        <h1 className="text-xl sm:text-2xl font-medium mb-3">nirav</h1>
+        <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
           fullstack developer and computer science student.
-          <br />
-          <span className="italic">i like cats.</span>
+        </p>
+        <p className="text-sm sm:text-base text-muted-foreground italic">
+          i like cats.
         </p>
       </section>
 
-      <hr className="dashed my-10" />
+      <div className="w-full border-t border-dashed border-base02 my-6" />
 
       {/* Navigation links */}
       <section>
         <ul className="space-y-4">
           {links.map(({ href, label, desc }) => (
             <li key={href}>
-              <Link
-                href={href}
-                className="group flex items-baseline gap-3"
-              >
-                <span className="text-sm text-foreground group-hover:text-blue transition-colors">
+              <Link href={href} className="group block">
+                <span className="text-sm sm:text-base font-medium text-foreground group-hover:text-blue transition-colors">
                   {label}
                 </span>
-                <span className="text-xs text-muted-foreground">
+                <span className="text-xs sm:text-sm text-muted-foreground ml-3">
                   — {desc}
                 </span>
               </Link>
@@ -72,18 +70,18 @@ export default function Home() {
         </ul>
       </section>
 
-      <hr className="dashed my-10" />
+      <div className="w-full border-t border-dashed border-base02 my-6" />
 
       {/* Social links */}
       <section>
-        <div className="flex flex-wrap items-center gap-4">
+        <div className="flex flex-wrap items-center gap-x-5 gap-y-3">
           {socials.map(({ href, label }) => (
             <Link
               key={href}
               href={href}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground underline decoration-dashed underline-offset-4 decoration-base02 hover:decoration-foreground/30 transition-all"
+              className="inline-flex items-center gap-1 text-xs sm:text-sm text-muted-foreground hover:text-foreground underline decoration-dashed underline-offset-4 decoration-base02 hover:decoration-foreground/30 transition-all"
             >
               {label}
               <ArrowUpRight className="h-3 w-3" />
