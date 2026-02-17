@@ -27,8 +27,20 @@ export default function StuffPage() {
   return (
     <>
       <Navbar />
-      <main className="prose prose-invert mx-auto py-12">
-        <div dangerouslySetInnerHTML={{ __html: html }} />
+      <main>
+        <section className="pb-8">
+          <h1 className="text-lg font-medium mb-2">misc</h1>
+          <p className="text-sm text-muted-foreground">
+            random experiments and stuff i find interesting
+          </p>
+        </section>
+
+        <hr className="dashed mb-8" />
+
+        <div
+          className="prose prose-invert max-w-none mb-16"
+          dangerouslySetInnerHTML={{ __html: html }}
+        />
       </main>
     </>
   );

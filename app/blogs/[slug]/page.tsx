@@ -74,45 +74,52 @@ export default async function BlogPost({
       <main>
         <Navbar />
 
-        <section className="py-16 px-4 max-w-4xl mx-auto">
+        <section className="pb-16">
           <Link
             href="/blogs"
-            className="flex items-center text-subtext0 hover:text-mauve mb-8 group"
+            className="inline-flex items-center text-xs text-muted-foreground hover:text-foreground mb-8 group transition-colors"
           >
-            <ArrowLeft className="mr-2 h-4 w-4 group-hover:translate-x-[-2px] transition-transform" />
-            Back to all blogs
+            <ArrowLeft className="mr-1.5 h-3 w-3 group-hover:translate-x-[-2px] transition-transform" />
+            back to blog
           </Link>
 
-          <p className="text-subtext0 mb-2">{data.date}</p>
-          <h1 className="text-3xl md:text-4xl font-bold mb-4">{data.title}</h1>
+          <p className="text-xs text-muted-foreground mb-3">{data.date}</p>
+          <h1 className="text-xl font-medium mb-4">{data.title}</h1>
 
-          <div className="flex flex-wrap gap-2 mb-6">
-            {data.tags?.map((tag: string) => (
-              <span
-                key={tag}
-                className="text-sm text-subtext0 border border-surface1 px-3 py-1"
-              >
-                #{tag}
-              </span>
-            ))}
-          </div>
+          {data.tags && data.tags.length > 0 && (
+            <div className="flex flex-wrap gap-2 mb-8">
+              {data.tags.map((tag: string) => (
+                <span
+                  key={tag}
+                  className="text-[10px] text-muted-foreground dashed-border px-2 py-0.5"
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+          )}
 
-          <div className="relative w-full h-[300px] sm:h-[400px] md:h-[500px] mb-12 overflow-hidden border border-surface1 rounded-xl">
-            <Image
-              src={data.image || "/placeholder.svg"}
-              alt={data.title}
-              fill
-              className="object-cover"
-              sizes="(max-width: 768px) 100vw, 50vw"
-            />
-          </div>
+          {data.image && (
+            <div className="relative w-full h-[250px] sm:h-[350px] mb-10 overflow-hidden dashed-border">
+              <Image
+                src={data.image}
+                alt={data.title}
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 672px"
+              />
+            </div>
+          )}
 
           <article className="prose prose-invert max-w-none text-muted-foreground">
             <MDXRemote source={content} components={useMDXComponents({})} />
           </article>
 
-          <p className="text-sm mt-12 text-right text-overlay0">
-            Written by <span className="text-foreground">{data.author}</span>
+          <hr className="dashed my-10" />
+
+          <p className="text-xs text-muted-foreground text-right">
+            written by{" "}
+            <span className="text-foreground">{data.author}</span>
           </p>
         </section>
       </main>

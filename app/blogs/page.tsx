@@ -17,47 +17,41 @@ export default function BlogPage() {
     <main>
       <Navbar />
 
-      {/* Blog Header */}
-      <section className="pt-12 md:pt-16 pb-10">
-        <h1 className="text-4xl md:text-5xl font-bold mb-4">
-          <span className="text-mauve">#</span>blog
-        </h1>
-        <p className="text-subtext0">
-          Thoughts, ideas, and insights on web design and development
+      <section className="pb-8">
+        <h1 className="text-lg font-medium mb-2">blog</h1>
+        <p className="text-sm text-muted-foreground">
+          thoughts, ideas, and insights on web design and development
         </p>
       </section>
 
-      {/* Blog Cards */}
-      <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
-        {blogs.map((post) => (
-          <Link
-            key={post.slug}
-            href={`/blogs/${post.slug}`}
-            className="block group h-full"
-            aria-label={`Read blog post: ${post.title}`}
-          >
-            <article className="border border-surface1 hover:border-mauve transition-colors h-full">
-              <div className="p-6 flex flex-col h-full">
-                <p className="text-subtext0 mb-2">{post.date}</p>
-                <h3 className="text-xl font-semibold mb-3 group-hover:text-mauve transition-colors">
-                  {post.title}
-                </h3>
-                <p className="text-subtext0 mb-4 flex-grow">
-                  {post.description || "No excerpt available."}
-                </p>
-                <div className="flex flex-wrap gap-2 mt-auto">
-                  {post.tags?.map((tag: string) => (
-                    <span
-                      key={tag}
-                      className="text-sm text-subtext0 border border-surface1 px-2 py-1"
-                    >
-                      #{tag}
-                    </span>
-                  ))}
+      <hr className="dashed" />
+
+      <section className="mb-16">
+        {blogs.map((post, index) => (
+          <div key={post.slug}>
+            <Link
+              href={`/blogs/${post.slug}`}
+              className="group block py-5"
+              aria-label={`Read blog post: ${post.title}`}
+            >
+              <div className="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-4">
+                <span className="text-xs text-muted-foreground shrink-0 tabular-nums">
+                  {post.date}
+                </span>
+                <div className="flex-1 min-w-0">
+                  <h3 className="text-sm font-medium group-hover:text-blue transition-colors">
+                    {post.title}
+                  </h3>
+                  {post.description && (
+                    <p className="text-xs text-muted-foreground mt-1 line-clamp-1">
+                      {post.description}
+                    </p>
+                  )}
                 </div>
               </div>
-            </article>
-          </Link>
+            </Link>
+            {index < blogs.length - 1 && <hr className="dashed" />}
+          </div>
         ))}
       </section>
     </main>

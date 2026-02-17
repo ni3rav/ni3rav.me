@@ -68,17 +68,40 @@ body {
   background: rgb(var(--background));
 }
 
+/* Dashed border utilities */
+.dashed-border {
+  border: 1px dashed rgb(var(--oxo-base02));
+}
+
+.dashed-border-t {
+  border-top: 1px dashed rgb(var(--oxo-base02));
+}
+
+.dashed-border-b {
+  border-bottom: 1px dashed rgb(var(--oxo-base02));
+}
+
+.dashed-border-l {
+  border-left: 1px dashed rgb(var(--oxo-base02));
+}
+
+hr.dashed {
+  border: none;
+  border-top: 1px dashed rgb(var(--oxo-base02));
+  margin: 0;
+}
+
 /* Prose styles for blog content */
 .prose h2 {
-  @apply text-2xl font-semibold mt-8 mb-4 text-foreground;
+  @apply text-xl font-medium mt-8 mb-4 text-foreground;
 }
 
 .prose h3 {
-  @apply text-xl font-semibold mt-6 mb-3 text-foreground;
+  @apply text-lg font-medium mt-6 mb-3 text-foreground;
 }
 
 .prose p {
-  @apply mb-4 text-muted-foreground;
+  @apply mb-4 text-muted-foreground leading-relaxed;
   text-align: justify;
 }
 
@@ -95,11 +118,12 @@ body {
 }
 
 .prose a {
-  @apply text-accent hover:opacity-80 underline;
+  @apply text-blue underline underline-offset-4 decoration-blue/40 hover:decoration-blue/80 transition-all;
 }
 
 .prose blockquote {
-  @apply border-l-4 border-accent pl-4 italic my-6;
+  border-left: 2px dashed rgb(var(--oxo-blue));
+  @apply pl-4 italic my-6 text-muted-foreground;
 }
 
 .prose code:not([data-highlighted]) {
@@ -114,11 +138,11 @@ body {
 /* Responsive adjustments */
 @media (max-width: 640px) {
   .prose h2 {
-    @apply text-xl;
+    @apply text-lg;
   }
 
   .prose h3 {
-    @apply text-lg;
+    @apply text-base;
   }
 }
 
@@ -127,46 +151,4 @@ body {
   .fixed.left-0 {
     @apply hidden;
   }
-}
-
-/* Subtle reveal animations */
-@keyframes fade-up {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.reveal-up {
-  opacity: 0;
-  animation: fade-up 600ms ease-out forwards;
-}
-
-.reveal-delay-1 {
-  animation-delay: 100ms;
-}
-.reveal-delay-2 {
-  animation-delay: 200ms;
-}
-.reveal-delay-3 {
-  animation-delay: 300ms;
-}
-.reveal-delay-4 {
-  animation-delay: 400ms;
-}
-.reveal-delay-5 {
-  animation-delay: 500ms;
-}
-.reveal-delay-6 {
-  animation-delay: 600ms;
-}
-.reveal-delay-7 {
-  animation-delay: 700ms;
-}
-.reveal-delay-8 {
-  animation-delay: 800ms;
 }

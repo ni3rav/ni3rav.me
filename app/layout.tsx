@@ -9,7 +9,7 @@ import {
 } from "@/components/structured-data";
 
 const jetbrainsMono = JetBrains_Mono({
-  weight: ["400", "500", "600", "700", "800"],
+  weight: ["400", "500", "600", "700"],
   subsets: ["latin"],
   variable: "--font-mono",
 });
@@ -30,7 +30,7 @@ export default function RootLayout({
       <body
         className={`${jetbrainsMono.className} bg-background text-foreground min-h-screen overflow-x-hidden`}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">{children}</div>
+        <div className="max-w-2xl mx-auto px-6">{children}</div>
         <FooterWrapper />
       </body>
     </html>

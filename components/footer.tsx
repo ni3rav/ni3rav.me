@@ -1,17 +1,11 @@
 import Link from "next/link";
 import { Github, Linkedin, Mail, Twitter } from "lucide-react";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 
 const socialLinks = [
   {
-    label: "LinkedIn",
-    href: "https://linkedin.com/in/nirav-mht",
-    icon: Linkedin,
+    label: "GitHub",
+    href: "https://github.com/ni3rav",
+    icon: Github,
   },
   {
     label: "Twitter",
@@ -19,9 +13,9 @@ const socialLinks = [
     icon: Twitter,
   },
   {
-    label: "GitHub",
-    href: "https://github.com/ni3rav",
-    icon: Github,
+    label: "LinkedIn",
+    href: "https://linkedin.com/in/nirav-mht",
+    icon: Linkedin,
   },
   {
     label: "Email",
@@ -32,36 +26,25 @@ const socialLinks = [
 
 export default function Footer() {
   return (
-    <footer className="mt-20 border-t border-surface1 bg-mantle/50 backdrop-blur-sm w-full">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="flex flex-col items-center space-y-6">
-          {/* Social Links */}
-          <TooltipProvider>
-            <div className="flex gap-6">
-              {socialLinks.map(({ label, href, icon: Icon }) => (
-                <Tooltip key={label}>
-                  <TooltipTrigger asChild>
-                    <Link
-                      href={href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-subtext0 hover:text-mauve transition-colors p-2 rounded-full hover:bg-mauve/10"
-                      aria-label={label}
-                    >
-                      <Icon className="h-6 w-6" />
-                    </Link>
-                  </TooltipTrigger>
-                  <TooltipContent className="bg-surface0 text-text border-surface1 text-sm">
-                    {label}
-                  </TooltipContent>
-                </Tooltip>
-              ))}
-            </div>
-          </TooltipProvider>
-
-          {/* Copyright */}
-          <div className="text-center text-subtext0 text-sm">
-            <p className="mt-1">crafted with 😻 by nirav (with antigravity and opus 4.5)</p>
+    <footer className="dashed-border-t mt-20">
+      <div className="max-w-2xl mx-auto px-6 py-8">
+        <div className="flex items-center justify-between">
+          <p className="text-xs text-muted-foreground">
+            crafted by nirav
+          </p>
+          <div className="flex gap-4">
+            {socialLinks.map(({ label, href, icon: Icon }) => (
+              <Link
+                key={label}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-muted-foreground hover:text-foreground transition-colors"
+                aria-label={label}
+              >
+                <Icon className="h-4 w-4" />
+              </Link>
+            ))}
           </div>
         </div>
       </div>

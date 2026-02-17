@@ -1,126 +1,96 @@
 import Link from "next/link";
-import { ExternalLink } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
+
+const links = [
+  {
+    href: "/projects",
+    label: "projects",
+    desc: "things i've built and shipped",
+  },
+  {
+    href: "/blogs",
+    label: "blog",
+    desc: "writeups on things i've learned",
+  },
+  {
+    href: "/about",
+    label: "about",
+    desc: "a bit more context about me",
+  },
+  {
+    href: "/stuff",
+    label: "misc",
+    desc: "extra experiments and stuff",
+  },
+  {
+    href: "/resume.pdf",
+    label: "resume",
+    desc: "one-page pdf with the highlights",
+  },
+];
+
+const socials = [
+  { href: "https://github.com/ni3rav", label: "github" },
+  { href: "https://x.com/ni3rav", label: "twitter" },
+  { href: "mailto:niravv1405@gmail.com", label: "email" },
+  { href: "https://linkedin.com/in/nirav-mht", label: "linkedin" },
+];
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-background text-foreground grid place-items-center">
-      <div className="max-w-4xl mx-auto px-6 py-20">
-        <h1 className="text-[40px] sm:text-[60px] md:text-[80px] font-bold tracking-[-0.07em] leading-[0.90] mb-6 text-balance reveal-up">
-          hi, i'm <span className="text-mauve">nirav</span>
-        </h1>
+    <main className="py-20">
+      {/* Intro */}
+      <section>
+        <h1 className="text-lg font-medium mb-2">nirav</h1>
+        <p className="text-sm text-muted-foreground leading-relaxed max-w-md">
+          fullstack developer and computer science student.
+          <br />
+          <span className="italic">i like cats.</span>
+        </p>
+      </section>
 
-        <div className="text-[20px] sm:text-[22px] md:text-[24px] tracking-[0.009em] mb-12 leading-relaxed space-y-1">
-          <div className="opacity-90 reveal-up reveal-delay-1">
-            fullstack <span className="text-mauve">developer</span> and{" "}
-            <span className="text-mauve">computer science junior</span>
-          </div>
-          <div className="opacity-80 italic reveal-up reveal-delay-2">
-            i like cats
-          </div>
+      <hr className="dashed my-10" />
+
+      {/* Navigation links */}
+      <section>
+        <ul className="space-y-4">
+          {links.map(({ href, label, desc }) => (
+            <li key={href}>
+              <Link
+                href={href}
+                className="group flex items-baseline gap-3"
+              >
+                <span className="text-sm text-foreground group-hover:text-blue transition-colors">
+                  {label}
+                </span>
+                <span className="text-xs text-muted-foreground">
+                  — {desc}
+                </span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <hr className="dashed my-10" />
+
+      {/* Social links */}
+      <section>
+        <div className="flex flex-wrap items-center gap-4">
+          {socials.map(({ href, label }) => (
+            <Link
+              key={href}
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground underline decoration-dashed underline-offset-4 decoration-base02 hover:decoration-foreground/30 transition-all"
+            >
+              {label}
+              <ArrowUpRight className="h-3 w-3" />
+            </Link>
+          ))}
         </div>
-
-        <div className="mt-20 space-y-4 text-[18px] sm:text-[20px] tracking-[-0.005em] text-muted-foreground">
-          <p className="reveal-up reveal-delay-3">
-            <Link
-              href="/projects"
-              className="text-foreground hover:text-muted-foreground transition-colors"
-            >
-              <span className="bg-mauve/10 text-lavender px-1 rounded">
-                projects
-              </span>
-            </Link>
-            <span className="mx-2">—</span>
-            things i've built and shipped so far{" "}
-          </p>
-          <p className="reveal-up reveal-delay-4">
-            <Link
-              href="/blogs"
-              className="text-foreground hover:text-muted-foreground transition-colors"
-            >
-              <span className="bg-mauve/10 text-lavender px-1 rounded">
-                blogs
-              </span>
-            </Link>
-            <span className="mx-2">—</span>
-            some writeups to share what my learnings
-          </p>
-          <p className="reveal-up reveal-delay-5">
-            <Link
-              href="/about"
-              className="text-foreground hover:text-muted-foreground transition-colors"
-            >
-              <span className="bg-mauve/10 text-lavender px-1 rounded">
-                about
-              </span>
-            </Link>
-            <span className="mx-2">—</span>a bit more context and where i'm
-            headed
-          </p>
-          <p className="reveal-up reveal-delay-6">
-            <Link
-              href="/resume.pdf"
-              className="text-foreground hover:text-muted-foreground transition-colors"
-            >
-              <span className="bg-mauve/10 text-lavender px-1 rounded">
-                resume
-              </span>
-            </Link>
-            <span className="mx-2">—</span>
-            one‑page pdf with the highlights
-          </p>
-          <p className="reveal-up reveal-delay-7">
-            <Link
-              href="/stuff"
-              className="text-foreground hover:text-muted-foreground transition-colors"
-            >
-              <span className="bg-mauve/10 text-lavender px-1 rounded">
-                misc
-              </span>
-            </Link>
-            <span className="mx-2">—</span>
-            some extra experiments and stuff
-          </p>
-
-          <p className="pt-16 text-[18px] sm:text-[20px] tracking-[0.09em] reveal-up reveal-delay-8">
-            <Link
-              href="https://github.com/ni3rav"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 underline decoration-dashed underline-offset-4 decoration-mauve/60 hover:decoration-lavender transition-colors"
-            >
-              github <ExternalLink className="h-3 w-3 opacity-70" />
-            </Link>
-            <span className="mx-2">·</span>
-            <Link
-              href="https://x.com/ni3rav"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 underline decoration-dashed underline-offset-4 decoration-mauve/60 hover:decoration-lavender transition-colors"
-            >
-              x (twitter) <ExternalLink className="h-3 w-3 opacity-70" />
-            </Link>
-
-            <span className="mx-2">·</span>
-            <Link
-              href="mailto:niravv1405@gmail.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 underline decoration-dashed underline-offset-4 decoration-mauve/60 hover:decoration-lavender transition-colors"
-            >
-              email <ExternalLink className="h-3 w-3 opacity-70" />
-            </Link>
-            <span className="mx-2">·</span>
-            <Link
-              href="https://linkedin.com/in/nirav-mht"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 underline decoration-dashed underline-offset-4 decoration-mauve/60 hover:decoration-lavender transition-colors"
-            >
-              linkedin <ExternalLink className="h-3 w-3 opacity-70" />
-            </Link>
-          </p>
-        </div>
-      </div>
+      </section>
     </main>
   );
 }

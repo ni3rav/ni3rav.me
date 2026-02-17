@@ -66,86 +66,95 @@ export default async function ProjectDetail({
     <main>
       <Navbar />
 
-      <article className="py-16">
+      <article className="pb-16">
         <Link
           href="/projects"
-          className="flex items-center text-subtext0 hover:text-mauve mb-8 group"
+          className="inline-flex items-center text-xs text-muted-foreground hover:text-foreground mb-8 group transition-colors"
         >
-          <ArrowLeft className="mr-2 h-4 w-4 group-hover:translate-x-[-2px] transition-transform" />
-          Back to all projects
+          <ArrowLeft className="mr-1.5 h-3 w-3 group-hover:translate-x-[-2px] transition-transform" />
+          back to projects
         </Link>
 
-        <div className="mb-8">
-          <h1 className="text-3xl md:text-4xl font-bold mb-4">{data.title}</h1>
-          <p className="text-subtext0 text-lg">{data.description}</p>
+        <h1 className="text-xl font-medium mb-2">{data.title}</h1>
+        <p className="text-sm text-muted-foreground mb-6">
+          {data.description}
+        </p>
+
+        {/* Action links */}
+        <div className="flex flex-wrap gap-3 mb-8">
+          {data.demoUrl && (
+            <a
+              href={data.demoUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 text-xs dashed-border px-3 py-1.5 text-foreground hover:bg-surface/50 transition-colors"
+            >
+              <ExternalLink className="h-3 w-3" />
+              live demo
+            </a>
+          )}
+          {data.githubUrl && (
+            <a
+              href={data.githubUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 text-xs dashed-border px-3 py-1.5 text-muted-foreground hover:text-foreground transition-colors"
+            >
+              <Github className="h-3 w-3" />
+              source code
+            </a>
+          )}
         </div>
 
-        <div className="mb-12">
-          <div className="relative w-full h-[300px] sm:h-[400px] md:h-[500px] overflow-hidden border border-surface1">
+        {/* Hero image */}
+        {data.image && (
+          <div className="relative w-full h-[250px] sm:h-[350px] mb-10 overflow-hidden dashed-border">
             <Image
-              src={data.image || "/placeholder.svg"}
+              src={data.image}
               alt={data.title}
               fill
               className="object-cover"
             />
           </div>
-        </div>
+        )}
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-          <div className="md:col-span-2">
-            <h2 className="text-2xl font-bold mb-4">Project Overview</h2>
-            <article className="prose prose-invert max-w-none text-subtext1 mb-6">
-              <MDXRemote source={content} components={useMDXComponents({})} />
-            </article>
+        <hr className="dashed mb-8" />
 
-            <div className="flex flex-wrap gap-4 mb-8">
-              {data.demoUrl && (
-                <a
-                  href={data.demoUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 border border-mauve px-4 py-2 hover:bg-mauve/10 transition-colors"
-                >
-                  <ExternalLink className="h-4 w-4" />
-                  Live Demo
-                </a>
-              )}
-              {data.githubUrl && (
-                <a
-                  href={data.githubUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 border border-surface1 px-4 py-2 hover:border-text hover:text-text transition-colors"
-                >
-                  <Github className="h-4 w-4" />
-                  View Code
-                </a>
-              )}
-            </div>
-          </div>
-
-          <div>
-            <div className="border border-surface1 p-6">
-              <h3 className="text-xl font-bold mb-4">Project Details</h3>
-
-              <div className="mb-4">
-                <h4 className="text-subtext0 mb-2">Year</h4>
-                <p>{data.year}</p>
-              </div>
-
+        {/* Project details sidebar */}
+        <div className="dashed-border p-5 mb-8">
+          <div className="flex flex-wrap gap-6">
+            {data.year && (
               <div>
-                <h4 className="text-subtext0 mb-2">Technologies</h4>
-                <ul className="flex flex-wrap gap-2">
-                  {data.technologies?.map((tech: string) => (
-                    <li key={tech} className="border border-surface1 px-3 py-1">
-                      {tech}
-                    </li>
-                  ))}
-                </ul>
+                <h4 className="text-[10px] text-muted-foreground uppercase tracking-wider mb-1">
+                  Year
+                </h4>
+                <p className="text-xs">{data.year}</p>
               </div>
-            </div>
+            )}
+            {data.technologies && (
+              <div className="flex-1 min-w-0">
+                <h4 className="text-[10px] text-muted-foreground uppercase tracking-wider mb-2">
+                  Stack
+                </h4>
+                <div className="flex flex-wrap gap-1.5">
+                  {data.technologies.map((tech: string) => (
+                    <span
+                      key={tech}
+                      className="text-[10px] dashed-border px-2 py-0.5 text-muted-foreground"
+                    >
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         </div>
+
+        {/* Content */}
+        <article className="prose prose-invert max-w-none text-muted-foreground">
+          <MDXRemote source={content} components={useMDXComponents({})} />
+        </article>
       </article>
     </main>
   );

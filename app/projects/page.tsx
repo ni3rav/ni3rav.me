@@ -17,18 +17,16 @@ export default function Projects() {
     <main>
       <Navbar />
 
-      {/* Projects Header */}
-      <section className="py-16">
-        <h1 className="text-4xl md:text-5xl font-bold mb-4">
-          <span className="text-mauve">#</span>projects
-        </h1>
-        <p className="text-subtext0">
-          A selection of my recent work and personal projects
+      <section className="pb-8">
+        <h1 className="text-lg font-medium mb-2">projects</h1>
+        <p className="text-sm text-muted-foreground">
+          a selection of my recent work and personal projects
         </p>
       </section>
 
-      {/* Projects Grid */}
-      <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
+      <hr className="dashed mb-8" />
+
+      <section className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-16">
         {projects.map((project) => (
           <ProjectCard key={project.id} project={project} />
         ))}

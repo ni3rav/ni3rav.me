@@ -2,117 +2,66 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { Cat, Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
+
+const navLinks = [
+  { href: "/", label: "home" },
+  { href: "/projects", label: "projects" },
+  { href: "/blogs", label: "blog" },
+  { href: "/about", label: "about" },
+  { href: "/stuff", label: "misc" },
+  { href: "/resume.pdf", label: "resume" },
+];
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <nav className="py-6">
+    <nav className="py-8">
       <div className="flex justify-between items-center">
-        <Link href="/" className="text-xl font-bold flex items-center">
-          <span className="mr-2">
-            <Cat size={32} className="text-mauve" strokeWidth={3} />
-          </span>{" "}
-          Nirav
+        <Link
+          href="/"
+          className="text-sm font-medium text-foreground hover:text-blue transition-colors"
+        >
+          nirav
         </Link>
 
         {/* Mobile menu button */}
         <button
-          className="md:hidden"
+          className="md:hidden text-muted-foreground hover:text-foreground transition-colors"
           onClick={() => setIsOpen(!isOpen)}
           aria-label={isOpen ? "Close menu" : "Open menu"}
         >
-          {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          {isOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
         </button>
 
         {/* Desktop navigation */}
-        <div className="hidden md:flex items-center space-x-8">
-          <Link href="/" className="hover:text-mauve transition-colors">
-            <span className="text-mauve">#</span>home
-          </Link>
-          <Link
-            href="/projects"
-            className="hover:text-mauve transition-colors"
-          >
-            <span className="text-mauve">#</span>projects
-          </Link>
-          <Link
-            href="/stuff"
-            className="hover:text-mauve transition-colors"
-          >
-            <span className="text-mauve">#</span>stuff
-          </Link>
-          <Link
-            href="/blogs"
-            className="hover:text-mauve transition-colors"
-          >
-            <span className="text-mauve">#</span>blogs
-          </Link>
-
-          <Link
-            href="/about"
-            className="hover:text-mauve transition-colors"
-          >
-            <span className="text-mauve">#</span>about
-          </Link>
-
-          <Link
-            href="/resume.pdf"
-            className="hover:text-mauve transition-colors"
-          >
-            <span className="text-mauve">#</span>resume
-          </Link>
+        <div className="hidden md:flex items-center gap-6">
+          {navLinks.slice(1).map(({ href, label }) => (
+            <Link
+              key={href}
+              href={href}
+              className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+            >
+              {label}
+            </Link>
+          ))}
         </div>
       </div>
 
       {/* Mobile navigation */}
       {isOpen && (
-        <div className="md:hidden mt-4 flex flex-col space-y-4 border-t border-surface1 pt-4">
-          <Link
-            href="/"
-            className="hover:text-mauve transition-colors"
-            onClick={() => setIsOpen(false)}
-          >
-            <span className="text-mauve">#</span>home
-          </Link>
-          <Link
-            href="/projects"
-            className="hover:text-mauve transition-colors"
-            onClick={() => setIsOpen(false)}
-          >
-            <span className="text-mauve">#</span>projects
-          </Link>
-          <Link
-            href="/blogs"
-            className="hover:text-mauve transition-colors"
-            onClick={() => setIsOpen(false)}
-          >
-            <span className="text-mauve">#</span>blogs
-          </Link>
-          <Link
-            href="/stuff"
-            className="hover:text-mauve transition-colors"
-            onClick={() => setIsOpen(false)}
-          >
-            <span className="text-mauve">#</span>stuff
-          </Link>
-
-          <Link
-            href="/about"
-            className="hover:text-mauve transition-colors"
-            onClick={() => setIsOpen(false)}
-          >
-            <span className="text-mauve">#</span>about
-          </Link>
-
-          <Link
-            href="/resume.pdf"
-            className="hover:text-mauve transition-colors"
-            onClick={() => setIsOpen(false)}
-          >
-            <span className="text-mauve">#</span>resume
-          </Link>
+        <div className="md:hidden mt-4 flex flex-col gap-3 dashed-border-t pt-4">
+          {navLinks.slice(1).map(({ href, label }) => (
+            <Link
+              key={href}
+              href={href}
+              className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+              onClick={() => setIsOpen(false)}
+            >
+              {label}
+            </Link>
+          ))}
         </div>
       )}
     </nav>

@@ -17,168 +17,154 @@ export default function AboutMe() {
       <Navbar />
 
       {/* About Header */}
-      <section className="py-16">
-        <h1 className="text-4xl md:text-5xl font-bold mb-4">
-          <span className="text-mauve">#</span>about
-        </h1>
-        <p className="text-subtext0">Get to know me and my work</p>
+      <section className="pb-8">
+        <h1 className="text-lg font-medium mb-2">about</h1>
+        <p className="text-sm text-muted-foreground">
+          get to know me and my work
+        </p>
       </section>
 
-      {/* About Content */}
-      <section className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-16">
-        <div className="md:col-span-2">
-          <h2 className="text-2xl font-bold mb-6">Who am I?</h2>
-          <div className="space-y-4 text-subtext1">
+      <hr className="dashed" />
+
+      {/* Bio */}
+      <section className="py-10 grid grid-cols-1 md:grid-cols-[1fr_auto] gap-10">
+        <div>
+          <div className="space-y-4 text-sm text-muted-foreground leading-relaxed">
             <p>
-              Hello! I'm Nirav, a fullstack developer and computer science
-              junior at Adani University. I specialize in building modern web
-              applications using React, Next.js, and TypeScript. My passion lies
-              in creating efficient, scalable solutions and learning new
-              technologies.
+              hello! i&apos;m nirav, a fullstack developer and computer science
+              junior at Adani University. i specialize in building modern web
+              applications using React, Next.js, and TypeScript.
             </p>
             <p>
-              Having been exposed to computers from a young age, I stumbled upon
-              coding which sparked my curiosity. After exploring various
-              programming domains, I discovered my true passion in web
-              development. The ability to create interactive and impactful user
-              experiences through code continues to drive my enthusiasm.
+              having been exposed to computers from a young age, i stumbled upon
+              coding which sparked my curiosity. after exploring various
+              programming domains, i discovered my true passion in web
+              development.
             </p>
-            <p>
-              When I'm not coding, you can find me watching cat videos because{" "}
-              <i>i like cats</i>
+            <p className="italic">
+              when i&apos;m not coding, you can find me watching cat videos
+              because i like cats.
             </p>
           </div>
-          <div className="mt-8">
+          <div className="mt-6">
             <Link
               href="/resume.pdf"
-              className="inline-block border border-mauve text-foreground px-6 py-3 hover:bg-mauve/10 transition-colors"
+              className="inline-block text-sm dashed-border px-4 py-2 text-foreground hover:bg-surface/50 transition-colors"
             >
-              My Resume =&gt;
+              view resume →
             </Link>
           </div>
         </div>
-        <div>
-          <div className="relative max-w-[300px] mx-auto md:mx-0">
-            <div className="border-2 border-mauve absolute top-[-20px] right-[-20px] w-full h-full"></div>
+        <div className="flex justify-center md:justify-end">
+          <div className="relative w-[180px] h-[220px]">
+            <div className="dashed-border absolute top-[-8px] right-[-8px] w-full h-full" />
             <Image
               src="/hero.jpeg"
               alt="Nirav profile"
-              width={300}
-              height={400}
-              className="relative z-10"
+              width={180}
+              height={220}
+              className="relative z-10 object-cover w-full h-full"
             />
           </div>
         </div>
       </section>
 
-      {/* Skills Section */}
-      <section className="mb-16">
-        <div className="flex justify-between items-center mb-8">
-          <h2 className="text-2xl md:text-3xl font-bold">
-            <span className="text-mauve">#</span>skills
-          </h2>
-          <div className="flex-grow mx-4 h-px bg-surface1"></div>
-        </div>
-        <div className="grid grid-cols-1 gap-6">
+      <hr className="dashed" />
+
+      {/* Skills */}
+      <section className="py-10">
+        <h2 className="text-sm font-medium mb-6">skills</h2>
+        <div className="space-y-4">
           {skills.map((skillGroup) => (
-            <div
-              key={skillGroup.category}
-              className="border border-surface1 p-4"
-            >
-              <h3 className="text-xl font-semibold mb-4">
+            <div key={skillGroup.category}>
+              <h3 className="text-xs text-muted-foreground mb-2">
                 {skillGroup.category}
               </h3>
-              <ul className="flex flex-wrap gap-2">
+              <div className="flex flex-wrap gap-2">
                 {skillGroup.items.map((skill) => (
-                  <li
+                  <span
                     key={skill}
-                    className="border border-surface1 px-3 py-1 mb-2"
+                    className="text-xs dashed-border px-2.5 py-1 text-muted-foreground"
                   >
                     {skill}
-                  </li>
+                  </span>
                 ))}
-              </ul>
+              </div>
             </div>
           ))}
         </div>
       </section>
 
-      {/* Achievements Section */}
-      <section className="mb-16" id="achievements">
-        <div className="flex justify-between items-center mb-8">
-          <h2 className="text-2xl md:text-3xl font-bold">
-            <span className="text-mauve">#</span>achievements
-          </h2>
-          <div className="flex-grow mx-4 h-px bg-surface1"></div>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <hr className="dashed" />
+
+      {/* Achievements */}
+      <section className="py-10" id="achievements">
+        <h2 className="text-sm font-medium mb-6">achievements</h2>
+        <div className="space-y-6">
           {achievements.map((achievement, index) => (
             <div
               key={index}
-              className="border border-surface1 p-6 hover:border-mauve/50 transition-colors"
+              className="dashed-border p-5 hover:border-blue/30 transition-colors"
+              style={{ borderColor: undefined }}
             >
-              <h3 className="text-xl font-bold mb-2">{achievement.title}</h3>
-              <p className="text-mauve mb-2">
-                {achievement.organization} <br />
-                <span className="text-sm font-light text-subtext1">
-                  {achievement.year}
-                </span>
+              <h3 className="text-sm font-medium mb-1">{achievement.title}</h3>
+              <p className="text-xs text-blue mb-2">
+                {achievement.organization}
               </p>
-              <p className="text-subtext1">{achievement.description}</p>
+              <p className="text-xs text-muted-foreground mb-2">
+                {achievement.year}
+              </p>
+              <p className="text-xs text-muted-foreground leading-relaxed">
+                {achievement.description}
+              </p>
             </div>
           ))}
         </div>
       </section>
 
-      {/* Experience Section */}
-      <section className="mb-16" id="experience">
-        <div className="flex justify-between items-center mb-8">
-          <h2 className="text-2xl md:text-3xl font-bold">
-            <span className="text-mauve">#</span>experience
-          </h2>
-          <div className="flex-grow mx-4 h-px bg-surface1"></div>
-        </div>
-        <div className="space-y-8">
+      <hr className="dashed" />
+
+      {/* Experience */}
+      <section className="py-10" id="experience">
+        <h2 className="text-sm font-medium mb-6">experience</h2>
+        <div className="space-y-6">
           {experiences.map((experience, index) => (
-            <div
-              key={index}
-              className="border-l-2 border-mauve pl-6 relative"
-            >
-              <div className="absolute w-3 h-3 bg-mauve rounded-full left-[-7px] top-1"></div>
-              <h3 className="text-xl font-bold">{experience.title}</h3>
-              <p className="text-mauve mb-2">
-                {experience.company} | {experience.period}
+            <div key={index} className="dashed-border-l pl-5 relative">
+              <div className="absolute w-1.5 h-1.5 bg-blue rounded-full left-[-4px] top-1.5" />
+              <h3 className="text-sm font-medium">{experience.title}</h3>
+              <p className="text-xs text-blue mb-1">
+                {experience.company} · {experience.period}
               </p>
-              <p className="text-subtext1 mb-3">{experience.description}</p>
+              <p className="text-xs text-muted-foreground leading-relaxed">
+                {experience.description}
+              </p>
             </div>
           ))}
         </div>
       </section>
 
-      {/* Education Section */}
-      <section className="mb-16">
-        <div className="flex justify-between items-center mb-8">
-          <h2 className="text-2xl md:text-3xl font-bold">
-            <span className="text-mauve">#</span>education
-          </h2>
-          <div className="flex-grow mx-4 h-px bg-surface1"></div>
-        </div>
-        <div className="space-y-8">
-          <div className="border-l-2 border-mauve pl-6 relative">
-            <div className="absolute w-3 h-3 bg-mauve rounded-full left-[-7px] top-1"></div>
-            <h3 className="text-xl font-bold">
-              Computer Science and Engineering (AI &amp; ML)
-            </h3>
-            <p className="text-mauve">Adani University | 2023 - 2027</p>
-            <p className="text-subtext1">
-              <b>CGPA: </b> 7.73 (As of Semester 4)
-            </p>
-            <p className="text-subtext1">
-              <b>Coursework: </b> Data Structures, Analysis and Design of
-              Algorithms, Database Management Systems, Computer Networks,
-              Operating Systems
-            </p>
-          </div>
+      <hr className="dashed" />
+
+      {/* Education */}
+      <section className="py-10">
+        <h2 className="text-sm font-medium mb-6">education</h2>
+        <div className="dashed-border-l pl-5 relative">
+          <div className="absolute w-1.5 h-1.5 bg-blue rounded-full left-[-4px] top-1.5" />
+          <h3 className="text-sm font-medium">
+            Computer Science and Engineering (AI &amp; ML)
+          </h3>
+          <p className="text-xs text-blue mb-1">
+            Adani University · 2023 – 2027
+          </p>
+          <p className="text-xs text-muted-foreground">
+            <span className="font-medium text-foreground">CGPA:</span> 7.73 (As
+            of Semester 4)
+          </p>
+          <p className="text-xs text-muted-foreground mt-1">
+            <span className="font-medium text-foreground">Coursework:</span>{" "}
+            Data Structures, Algorithms, DBMS, Computer Networks, Operating
+            Systems
+          </p>
         </div>
       </section>
     </main>
