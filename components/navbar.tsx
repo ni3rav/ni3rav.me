@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 const navLinks = [
   { href: "/projects", label: "projects" },
@@ -45,6 +46,7 @@ export default function Navbar() {
               {label}
             </Link>
           ))}
+          <ThemeToggle />
         </div>
       </div>
 
@@ -61,6 +63,7 @@ export default function Navbar() {
               {label}
             </Link>
           ))}
+          <ThemeToggle />
         </div>
       )}
     </nav>

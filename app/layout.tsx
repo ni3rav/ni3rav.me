@@ -7,6 +7,7 @@ import {
   PersonStructuredData,
   WebsiteStructuredData,
 } from "@/components/structured-data";
+import { ThemeProvider } from "@/components/theme-provider";
 
 const jetbrainsMono = JetBrains_Mono({
   weight: ["400", "500", "600", "700"],
@@ -22,7 +23,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="scroll-smooth">
+    <html lang="en" className="scroll-smooth" suppressHydrationWarning>
       <head>
         <PersonStructuredData />
         <WebsiteStructuredData />
@@ -30,9 +31,12 @@ export default function RootLayout({
       <body
         className={`${jetbrainsMono.className} bg-background text-foreground min-h-screen overflow-x-hidden`}
       >
-        <div className="max-w-2xl mx-auto px-6">{children}</div>
-        <FooterWrapper />
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
+          <div className="max-w-2xl mx-auto px-6">{children}</div>
+          <FooterWrapper />
+        </ThemeProvider>
       </body>
     </html>
   );
 }
+

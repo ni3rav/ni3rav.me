@@ -2,27 +2,27 @@
 @config "../tailwind.config.ts";
 
 :root {
-  /* Oxocarbon Dark - Base Colors (RGB values for alpha support) */
-  --oxo-base00: 22 22 22;      /* #161616 - background */
-  --oxo-base01: 38 38 38;      /* #262626 - surface */
-  --oxo-base02: 57 57 57;      /* #393939 - surface bright */
-  --oxo-base03: 82 82 82;      /* #525252 - overlay */
-  --oxo-base04: 221 225 230;   /* #dde1e6 - subtext */
-  --oxo-base05: 242 244 248;   /* #f2f4f8 - text */
-  --oxo-base06: 255 255 255;   /* #ffffff - bright text */
-  
-  /* Oxocarbon Accent Colors */
-  --oxo-teal: 8 189 186;       /* #08bdba - teal */
-  --oxo-cyan: 61 219 217;      /* #3ddbd9 - cyan */
-  --oxo-blue: 120 169 255;     /* #78a9ff - blue */
-  --oxo-pink: 238 83 150;      /* #ee5396 - pink */
-  --oxo-sky: 51 177 255;       /* #33b1ff - sky blue */
-  --oxo-magenta: 255 126 182;  /* #ff7eb6 - magenta */
-  --oxo-green: 66 190 101;     /* #42be65 - green */
-  --oxo-purple: 190 149 255;   /* #be95ff - purple */
-  --oxo-lightblue: 130 207 255; /* #82cfff - light blue */
+  /* Light Mode - Accent Colors (deeper for readability on white) */
+  --oxo-teal: 0 150 148;        /* #009694 */
+  --oxo-cyan: 0 180 178;        /* #00b4b2 */
+  --oxo-blue: 69 137 255;       /* #4589ff */
+  --oxo-pink: 210 55 120;       /* #d23778 */
+  --oxo-sky: 0 140 220;         /* #008cdc */
+  --oxo-magenta: 220 80 150;    /* #dc5096 */
+  --oxo-green: 40 160 75;       /* #28a04b */
+  --oxo-purple: 140 100 220;    /* #8c64dc */
+  --oxo-lightblue: 70 165 230;  /* #46a5e6 */
 
-  /* Semantic Color Tokens */
+  /* Light Mode - Base Colors */
+  --oxo-base00: 250 250 250;   /* #fafafa - background */
+  --oxo-base01: 240 240 240;   /* #f0f0f0 - surface */
+  --oxo-base02: 210 210 210;   /* #d2d2d2 - surface bright */
+  --oxo-base03: 140 140 140;   /* #8c8c8c - overlay */
+  --oxo-base04: 100 100 100;   /* #646464 - subtext */
+  --oxo-base05: 30 30 30;      /* #1e1e1e - text */
+  --oxo-base06: 0 0 0;         /* #000000 - bright text */
+
+  /* Semantic Color Tokens (Light defaults) */
   --background: var(--oxo-base00);
   --foreground: var(--oxo-base05);
   --card: var(--oxo-base01);
@@ -30,15 +30,15 @@
   --popover: var(--oxo-base01);
   --popover-foreground: var(--oxo-base05);
   --primary: var(--oxo-blue);
-  --primary-foreground: var(--oxo-base00);
+  --primary-foreground: 255 255 255;
   --secondary: var(--oxo-base02);
   --secondary-foreground: var(--oxo-base05);
   --muted: var(--oxo-base01);
   --muted-foreground: var(--oxo-base04);
   --accent: var(--oxo-blue);
-  --accent-foreground: var(--oxo-base00);
+  --accent-foreground: 255 255 255;
   --destructive: var(--oxo-pink);
-  --destructive-foreground: var(--oxo-base00);
+  --destructive-foreground: 255 255 255;
   --border: var(--oxo-base02);
   --input: var(--oxo-base02);
   --ring: var(--oxo-blue);
@@ -54,13 +54,40 @@
   --sidebar-background: var(--oxo-base00);
   --sidebar-foreground: var(--oxo-base05);
   --sidebar-primary: var(--oxo-blue);
-  --sidebar-primary-foreground: var(--oxo-base00);
+  --sidebar-primary-foreground: 255 255 255;
   --sidebar-accent: var(--oxo-base02);
   --sidebar-accent-foreground: var(--oxo-base05);
   --sidebar-border: var(--oxo-base01);
   --sidebar-ring: var(--oxo-blue);
 
   --radius: 0.5rem;
+}
+
+.dark {
+  /* Dark Mode - Oxocarbon Base Colors */
+  --oxo-base00: 22 22 22;      /* #161616 */
+  --oxo-base01: 38 38 38;      /* #262626 */
+  --oxo-base02: 57 57 57;      /* #393939 */
+  --oxo-base03: 82 82 82;      /* #525252 */
+  --oxo-base04: 221 225 230;   /* #dde1e6 */
+  --oxo-base05: 242 244 248;   /* #f2f4f8 */
+  --oxo-base06: 255 255 255;   /* #ffffff */
+
+  /* Dark Mode - Oxocarbon Accent Colors */
+  --oxo-teal: 8 189 186;       /* #08bdba */
+  --oxo-cyan: 61 219 217;      /* #3ddbd9 */
+  --oxo-blue: 120 169 255;     /* #78a9ff */
+  --oxo-pink: 238 83 150;      /* #ee5396 */
+  --oxo-sky: 51 177 255;       /* #33b1ff */
+  --oxo-magenta: 255 126 182;  /* #ff7eb6 */
+  --oxo-green: 66 190 101;     /* #42be65 */
+  --oxo-purple: 190 149 255;   /* #be95ff */
+  --oxo-lightblue: 130 207 255; /* #82cfff */
+
+  --primary-foreground: var(--oxo-base00);
+  --accent-foreground: var(--oxo-base00);
+  --destructive-foreground: var(--oxo-base00);
+  --sidebar-primary-foreground: var(--oxo-base00);
 }
 
 body {
@@ -180,9 +207,14 @@ hr.dashed {
 
 
 body {
-  --sb-track-color: #232e3300;
-  --sb-thumb-color: #ffffff28;
+  --sb-track-color: transparent;
+  --sb-thumb-color: #00000028;
   --sb-size: 4px;
+}
+
+.dark body,
+body.dark {
+  --sb-thumb-color: #ffffff28;
 }
 
 body::-webkit-scrollbar {

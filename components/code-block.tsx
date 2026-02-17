@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Check, Copy } from "lucide-react";
+import { useTheme } from "next-themes";
 
 interface CodeBlockProps {
   code: string;
@@ -18,18 +19,20 @@ export function CodeBlock({
 }: CodeBlockProps) {
   const [copied, setCopied] = useState(false);
   const [highlightedCode, setHighlightedCode] = useState<string>("");
+  const { resolvedTheme } = useTheme();
 
   useEffect(() => {
     async function highlight() {
       const { codeToHtml } = await import("shiki");
+      const shikiTheme = resolvedTheme === "light" ? "github-light" : "github-dark";
       const html = await codeToHtml(code, {
         lang: language,
-        theme: "github-dark",
+        theme: shikiTheme,
       });
       setHighlightedCode(html);
     }
     highlight();
-  }, [code, language]);
+  }, [code, language, resolvedTheme]);
 
   const copyToClipboard = async () => {
     await navigator.clipboard.writeText(code);

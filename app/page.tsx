@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 const links = [
   {
@@ -72,7 +73,7 @@ export default function Home() {
 
       <div className="w-full border-t border-dashed border-base02 my-6" />
 
-      {/* Social links */}
+      {/* Social links + theme toggle */}
       <section>
         <div className="flex flex-wrap items-center gap-x-5 gap-y-3">
           {socials.map(({ href, label }) => (
@@ -87,8 +88,10 @@ export default function Home() {
               <ArrowUpRight className="h-3 w-3" />
             </Link>
           ))}
+          <ThemeToggle />
         </div>
       </section>
     </main>
   );
 }
+
