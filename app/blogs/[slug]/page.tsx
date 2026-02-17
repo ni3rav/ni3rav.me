@@ -34,7 +34,7 @@ export async function generateMetadata({
   return constructMetadata({
     title: data.title || params.slug,
     description: data.description || "Read this article by Nirav Mehta",
-    image: data.image || "/opengraph-image",
+    image: `/api/og?title=${encodeURIComponent(data.title || params.slug)}`,
     url: `/blogs/${params.slug}`,
   });
 }

@@ -35,7 +35,7 @@ export async function generateMetadata({
     title: data.title || params.id,
     description:
       data.description || "A project by Nirav Mehta - Fullstack Developer",
-    image: data.image || "/opengraph-image",
+    image: `/api/og?title=${encodeURIComponent(data.title || params.id)}`,
     url: `/projects/${params.id}`,
   });
 }

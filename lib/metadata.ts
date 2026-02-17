@@ -5,11 +5,8 @@ const siteConfig = {
   title: "Nirav Mehta - Fullstack Developer & Computer Science Student",
   description:
     "Fullstack developer and computer science student. Specializing in React, Next.js, TypeScript, and modern web development. Building efficient, scalable solutions.",
-  url:
-    process.env.NODE_ENV === "production"
-      ? "https://ni3rav.me"
-      : "http://localhost:3000",
-  ogImage: "/opengraph-image",
+  url: "https://ni3rav.me",
+  ogImage: "https://ni3rav.me/og.png",
   author: {
     name: "Nirav Mehta",
     email: "niravv1405@gmail.com",
