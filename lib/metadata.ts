@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 
 const siteConfig = {
-  name: "Nirav Mehta",
-  title: "Nirav Mehta - Fullstack Developer & Computer Science Student",
+  name: "ni3rav",
+  title: "ni3rav.me",
   description:
-    "Fullstack developer and computer science student. Specializing in React, Next.js, TypeScript, and modern web development. Building efficient, scalable solutions.",
+    "messing around and finding out, i guess ?",
   url: "https://ni3rav.me",
   ogImage: "https://ni3rav.me/og.png",
   author: {
@@ -25,7 +25,6 @@ const siteConfig = {
     "frontend developer",
     "backend developer",
     "computer science",
-    "Adani University",
     "portfolio",
     "software engineer",
     "JavaScript developer",
