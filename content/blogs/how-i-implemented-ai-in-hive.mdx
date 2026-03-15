@@ -1,0 +1,183 @@
+---
+title: "How I implemented AI powered text-editing and analysis in Hive"
+date: "2026-03-15"
+tags: ["backend", "ai", "text-editing", "architecture", "BYOK"]
+image: "/blogs/byok-cover.png"
+author: "Nirav"
+description: "A walktrhough of why I chose bring your own key approach for ai powered text editing and post analysis in Hive"
+---
+
+Hey everyone!
+
+After exactly two months, I am back with a new blog. This time, I’ll be walking you through how I implemented AI-powered text editing and post analysis in my project, [Hive](https://hivecms.online).
+
+Before we start, let me set the context: I did not want to build an "AI-powered blog writing" feature because I am tired of—and strictly against—AI-generated "slop." I genuinely believe that you don't owe the world a blog. You should write only if you really feel like it; otherwise, it's totally fine. However, you can and should use AI to phrase your thoughts more effectively and fix grammatical errors to get your point across smoothly.
+
+With that out of the way, let’s get started!
+
+## Chapter 1: Why the "Bring Your Own Key" (BYOK) approach?
+
+Initially, I planned to implement these features using my own Gemini API keys. However, I soon realized the following shortcomings of that approach:
+
+* **Quota Limits:** Gemini recently reduced its free plan quota significantly, and I am not in a position to purchase extended usage.
+* **Management Overhead:** If I used my own keys, I would have to build and manage a credit system for users to ensure I didn't exceed those limits.
+* **Data Privacy:** Users might be concerned about how their data is being handled through a centralized key.
+
+To avoid these complexities, I decided to let users provide their own Gemini API keys. My server simply encrypts and stores the key, decrypting it only when needed for usage. This gives the user complete control and transparency.
+
+In the following chapters, I will walk you through exactly how I implemented this feature in Hive.
+
+## Chapter 2: The "Store it on Client-Side" Phase
+
+Once I made my mind to use the **Bring Your Own Key (BYOK)** model, the next challenge was figuring out where that key should live. My initial instinct was to keep everything on the client-side and letting users enter their key into a settings panel and storing it in their browser.
+
+It felt like the path of least resistance at first, but I quickly realized this approach was frankly a bit naive for a few critical reasons:
+
+* **Security Vulnerabilities:** Storing sensitive credentials like API keys in `localStorage` or `sessionStorage` is a major red flag. Any Cross-Site Scripting (XSS) vulnerability in the app could allow an attacker to dump the storage and steal user keys.
+* **Bundle Bloat:** To make the Gemini API calls directly from the frontend, I would have to bundle the Google Generative AI SDK into the client-side build. This would unnecessarily increase the initial load time for my users.
+* **Environment Constraints:** I wasn't entirely certain if the Gemini SDK was fully optimized for a browser environment or if it relied on specific Node.js globals. Relying on a full-fledged runtime like Node on the backend is much more predictable and stable.
+
+After weighing these risks, I moved away from the "client-only" dream. I concluded that the only professional way to handle this was to act as a secure vault: **encrypt the keys on the server and store them in my database**, ensuring they are only decrypted in a secure environment at the exact moment a request is made.
+
+## Chapter 3: The Security Architecture
+
+Now the biggest challenge was defining a strict "Trust Boundary." I needed to store these keys in a way that ensured they were only accessible in-memory during an active request. To achieve this, I implemented a robust encryption layer using the **AES-256-GCM** algorithm.
+
+### Encryption vs. Hashing
+
+* **Hashing (One-Way):** Functions like SHA-256 turn data into a fixed-length string that cannot be reversed (it is computationally impossible). This is perfect for passwords but useless here, as my server must be able to obtain the original raw API keys to make requests on behalf of the user.
+* **Encryption (Two-Way):** This allows the server to lock the data (encryption) and unlock it later (decryption).
+
+### The Implementation
+
+I used a combination of hashing and encryption. To ensure the encryption key is always the correct length (32 bytes for AES-256), I hash my environment variable (`AI_ENCRYPTION_KEY`)first:
+
+```typescript
+function getEncryptionKey(): Buffer {
+  // Normalizes the env string into exactly 32 bytes for AES-256.
+  return crypto.createHash('sha256').update(env.AI_ENCRYPTION_KEY).digest();
+}
+
+```
+
+When saving a key, the `encrypt` function generates a random **IV (Initialization Vector)**. This acts as a "salt" ensuring that even if two users save the same API key, the resulting scrambled text in the database looks completely different.
+
+```text
+[Encryption Logic]
+Raw Key + Master Secret + Random IV --> AES-256-GCM --> Encrypted Payload
+Stored as: v1:iv_hex:auth_tag_hex:ciphertext_hex
+
+```
+
+The **Auth Tag** is the "GCM" part of the algorithm; it provides integrity. If anyone tries to modify the encrypted string in the database, the decryption will fail immediately because the tag won't match.
+
+## Chapter 4: System Integration and Data Flow
+
+To bring this to life in Hive, I had to map out how data travels between the Client, the Backend, the Database, and the Gemini API.
+
+### 1. The BYOK Lifecycle
+
+The frontend only handles the raw key during the "Save" action. After that, the backend acts as a secure vault.
+
+```text
+[User]  ----->  [Frontend Settings]
+                  |
+                  | (POST /api/ai/provider) { apiKey, model }
+                  v
+                [Backend Controller]
+                  | 1. Validate with Zod
+                  | 2. Encrypt (AES-256-GCM)
+                  v
+                [PostgreSQL Database] (onConflictDoUpdate)
+
+[User]  ----->  [Frontend UI]
+                  |
+                  | (GET /api/ai/provider)
+                  v
+                [Backend] (Checks DB)
+                  |
+                  |--Returns--> { hasKey: true, model: "gemini-2.5-flash" }
+
+```
+
+When you read your settings, the backend intentionally returns `hasKey: Boolean(settings?.encryptedApiKey)`. This confirms the key is there without ever exposing the sensitive string back to the browser.
+
+### 2. Post Analysis: The Editorial Assistant
+
+The analysis feature bridges the user's key to Gemini's intelligence. To keep the AI from rambling, I implemented a strict **System Instruction** contract that forces Gemini to return specific Markdown sections:
+
+```typescript
+// System Instruction Snippet
+`You are an editorial assistant. Return concise markdown only.
+Response format (exactly these sections):
+## Summary
+## Strengths
+## Improvements
+Rules: Keep total length under 250 words.`
+
+```
+
+### 3. Selection Rewrite & HTML Preservation
+
+This was the most complex part of the project. If a user highlights a sentence that contains a **bold** word, a naive AI call would return plain text and destroy the formatting.
+
+To solve this, I used the **ProseMirror/Tiptap DOMSerializer** to extract the selection as structured HTML. I then used a Regex to detect if the selection contains tags like `<ul>`, `<table>`, or `<h3>`.
+
+```text
+[User Highlights HTML]  --> [Frontend] (Serializes DOM to string)
+                                |
+                                v
+                            [Backend] (Attaches HTML_PRESERVATION_RULES)
+                                |
+                                v
+                            [Gemini] (Processes "<u>Hello</u>" -> "<u>Hi</u>")
+                                |
+                                v
+                            [Frontend] (Injects new HTML into Editor)
+
+```
+
+The prompt ensures the AI acts as a surgical tool: "Preserve all existing HTML tags and hierarchy. Rewrite only the textual content inside tags."
+
+### 4. UX: The Safety Net
+
+AI calls take time. To make the UI feel responsive, I implemented an **inline placeholder**.
+
+1. When you click "Fix Grammar," the selected text is replaced with a placeholder: "Content is being rewritten..."
+2. If the API call succeeds, the placeholder is replaced with the new text.
+3. **Rollback:** If the API fails, the original text is restored so the user doesn't lose their work.
+
+### Technical Summary
+
+* **Persistence:** Drizzle ORM handles the `user_ai_settings` table with an `onConflictDoUpdate` logic, making key updates seamless.
+* **Security:** All endpoints are protected by `authMiddleware`, ensuring only the owner of the key can trigger a decryption request.
+* **Validation:** Zod schemas verify every request body to prevent malformed data from hitting the database or the AI.
+
+## Chapter 5: Security Caveats and Best Practices
+
+When you build a system that handles high-entropy keys, you have to plan for the "what-ifs."
+
+* **The Master Key Risk:** The security of every user key depends on my server-side `AI_ENCRYPTION_KEY`. If this environment variable is lost or changed, all currently stored keys become undecryptable gibberish.
+* **Versioned Encryption:** Notice the `v1:` prefix in my storage format. This is a future-proofing measure. If I decide to upgrade to a more advanced algorithm later, I can support `v2` keys alongside `v1` without breaking existing user settings.
+* **Leakage Prevention:** By only returning a `hasKey: true` boolean to the frontend, I ensure the decrypted key never touches the client state or browser logs.
+
+## Chapter 4: Future Roadmap and Extensibility
+
+The current architecture is solid, but there is always room to scale.
+
+### Multi-Model Support with Vercel AI SDK
+
+While I am currently calling the Gemini API directly, the next logical step is integrating the **Vercel AI SDK**. This would allow me to support multiple providers like OpenAI, Anthropic, or even local models via Ollama with minimal code changes. Instead of writing custom wrappers for every provider, the AI SDK provides a unified interface, making the "provider" column in my database truly dynamic.
+
+### Planned Features
+
+* **Usage Dashboard:** Giving users a local summary of their token consumption so they can track costs without leaving Hive.
+* **Custom System Prompts:** Allowing power users to define their own rules for how the "Analysis" or "Rewrite" features behave.
+
+## Conclusion
+
+Building AI features should not be about generating "AI slop." By using a **BYOK** approach, Hive remains a tool that empowers the writer rather than replacing them. It provides simple editing and analysis while keeping the user in total control of their data and their API costs.
+
+If you are looking to implement AI in your project without the overhead of managing credits or massive bills, this architecture is the way to go if you feel these tradeoffs are worth it.
+
+Thank you for reading! 😺
