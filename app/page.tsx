@@ -44,7 +44,7 @@ export default function Home() {
       <section>
         <h1 className="text-xl sm:text-2xl font-medium mb-3">nirav</h1>
         <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
-          fullstack developer and computer science student.
+          fullstack developer and computer science student. 
         <span className="text-sm sm:text-base text-muted-foreground italic">
           i like cats
         </span>
