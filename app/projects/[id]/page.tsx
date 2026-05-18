@@ -4,12 +4,13 @@ import matter from "gray-matter";
 import Navbar from "@/components/navbar";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowLeft, ExternalLink, Github } from "lucide-react";
+import { ArrowLeft, ExternalLink } from "lucide-react";
 import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import type { Metadata } from "next";
 import { constructMetadata } from "@/lib/metadata";
 import { useMDXComponents } from "@/mdx-component";
+import { Github } from "@/lib/icons";
 
 // Dynamic metadata generation
 export async function generateMetadata({
@@ -24,7 +25,7 @@ export async function generateMetadata({
   const projectPath = path.join(
     process.cwd(),
     "content/projects",
-    `${params.id}.mdx`
+    `${params.id}.mdx`,
   );
   if (!fs.existsSync(projectPath)) {
     return {};
@@ -53,7 +54,7 @@ export default async function ProjectDetail({
   const projectPath = path.join(
     process.cwd(),
     "content/projects",
-    `${params.id}.mdx`
+    `${params.id}.mdx`,
   );
   if (!fs.existsSync(projectPath)) {
     notFound();
@@ -76,9 +77,7 @@ export default async function ProjectDetail({
         </Link>
 
         <h1 className="text-xl font-medium mb-2">{data.title}</h1>
-        <p className="text-sm text-muted-foreground mb-6">
-          {data.description}
-        </p>
+        <p className="text-sm text-muted-foreground mb-6">{data.description}</p>
 
         {/* Action links */}
         <div className="flex flex-wrap gap-3 mb-8">

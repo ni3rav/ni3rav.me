@@ -1,7 +1,6 @@
 import type React from "react";
 import "./globals.css";
 import { JetBrains_Mono } from "next/font/google";
-import FooterWrapper from "@/components/footer-wrapper";
 import { defaultMetadata } from "@/lib/metadata";
 import {
   PersonStructuredData,
@@ -33,7 +32,6 @@ export default function RootLayout({
       >
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
           <div className="max-w-2xl mx-auto px-6">{children}</div>
-          <FooterWrapper />
         </ThemeProvider>
       </body>
     </html>
