@@ -132,16 +132,57 @@ userid/
     ├── audio-uuid.extension
     └── master.m3u8
 ```
-
-So now when the frontend starts streaming an audio file, first it'd download the master playlist file and based on the internet speed it'd download the appropriate playlist file. Then the playlist file would contain the locations of the chunks and the browser would download them.
+So when the user starts streaming
+```text
+master.m3u8
+    │
+    ├────► 64k/playlist.m3u8
+    │           ├── segment_000.ts
+    │           ├── segment_001.ts
+    │           └── ...
+    │
+    ├────► 128k/playlist.m3u8
+    │
+    ├────► 192k/playlist.m3u8
+    │
+    └────► 256k/playlist.m3u8
+```
+Browser selects bitrate dynamicallybased on current network speed.
 
 I have used NodeJS's builtin `spawn` and `childProcess` to start and manage ffmpeg/ffprobe processes, and the whole worker is containerised inside a NodeJS 22 Alpine image which has ffmpeg and ffprobe binaries installed in it.
 
+Thw whole flow can be seen like this:
+```text
+Input Audio
+     │
+     ▼
+┌───────────────┐
+│   ffprobe     │
+│ inspect audio │
+└──────┬────────┘
+       │ metadata
+       ▼
+┌────────────────────┐
+│      ffmpeg        │
+│ segment + transcode│
+└──────┬─────────────┘
+       │
+       ├──────────────► 64kbps segments
+       ├──────────────► 128kbps segments
+       ├──────────────► 192kbps segments
+       └──────────────► 256kbps segments
+                           │
+                           ▼
+                 Generate playlists
+                 (.m3u8 manifests)
+                           │
+                           ▼
+                      Upload to R2
+```
+
 I pushed this image to GitHub Container Registry because it was free, unlike Azure Container Registry which is hogging up the most amount of my Azure credits.
 
-Once done, I pushed this image and created an Azure Container Instance, but triggering these instances is the most troublesome part and I kind of regret choosing ACI, which I will explain later in the blog.
-
-But for now let's mark it as done.
+Once done, I pushed this image and created an Azure Container Instance, but triggering these instances is the most troublesome part and I kind of regret choosing ACI, which I will explain later in the blog. But for now let's mark it as done.
 
 ## PostgreSQL: The Source of Truth
 
@@ -245,7 +286,26 @@ Now once all pieces were in place, as a user I was subjected to the following fl
 
 Now that I dumped the whole flow here, I must address the challenges, shortcomings, and future plans with this project.
 
-1. Too many direct dependencies: Backend -> Trigger -> ACI Worker -> Callback -> Backend. If one hop fails, the whole job can break.
+1. Too many direct dependencies
+```text
+Current Dependency Chain
+
+Backend
+   │
+   ▼
+Trigger Function
+   │
+   ▼
+ACI Worker
+   │
+   ▼
+Worker Callback
+   │
+   ▼
+Backend DB Update
+
+Any failed hop can desync job state.
+```
 2. No durable job control: Job progress depends on HTTP calls/callbacks. Network timeouts can leave DB and real worker state out of sync.
 3. Scaling is hard: Current flow is built around manually starting ACI. Not ideal for many uploads at once. As I mentioned earlier, I regret choosing ACI because it does not have any sort of orchestration. So if you try uploading two files back-to-back, the later one is most likely to fail as the ACI might still be busy processing the previous file, requiring you to re-upload it after some time.
 4. Lack of a good user interface: currently the platform is very basic. I need to make it better by letting users efficiently browse their and others' audio files (currently users see only their own files).
@@ -260,7 +320,33 @@ Doing so would introduce a new set of challenges:
 
 There are several improvements which I want to make, but my exact future plans are as follows:
 
-1. Introduce a queue and retry mechanism to ensure better job handling instead of solely relying on HTTP callbacks
+1. Introduce a queue and retry mechanism to ensure better job handling instead of solely relying on HTTP callbacks; something like this
+
+```text
+               Future Architecture
+
+            ┌──────────────────┐
+            │     Backend      │
+            └────────┬─────────┘
+                     │ enqueue job
+                     ▼
+              ┌─────────────┐
+              │    Queue    │
+              └──────┬──────┘
+                     │ consume
+                     ▼
+         ┌────────────────────────┐
+         │ Container Apps Jobs    │
+         │ Auto-scaled Workers    │
+         └──────────┬─────────────┘
+                    │
+                    ▼
+             HLS Processing
+                    │
+                    ▼
+                   R2
+```
+
 2. Add a proper orchestration layer over ACI or migrate to Azure Container Apps Jobs as they have it builtin
 3. Make the UI more intuitive and add proper searching over the user's library once it starts getting bigger. This part actually looks intriguing, but I am currently unaware of how exactly I'd implement it, thus it's at the bottom of my list.
 
