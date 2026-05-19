@@ -1,0 +1,15 @@
+---
+title: "Vessel"
+description: "An end-to-end audio processing pipeline built using Azure services that converts uploaded audio into HLS streams with multiple bitrate variants using a scalable event-driven architecture."
+image: "/projects/vessel.png"
+year: "2026"
+technologies: ["Next.js", "Azure Container Apps", "Azure Functions", "NodeJS", "FFmpeg"]
+demoUrl: "https://vessel-web-kappa.vercel.app"
+githubUrl: "https://github.com/ni3rav/vessel"
+---
+
+Vessel is an experimental audio processing pipeline built to convert uploaded audio files into stream-ready HLS media. The system generates `.m3u8` manifests along with 4 different bitrate variants to support adaptive streaming across different network conditions and devices. An average audio file becomes stream-ready in under 5 minutes.
+
+The architecture is built around Azure services using an event-driven workflow where workers process audio files asynchronously and concurrently. The project was originally built using Azure Container Instances (ACI), but the worker infrastructure was later migrated to Azure Container Apps Jobs (ACA Jobs). The migration only required a few small changes in how payload data and environment variables were passed to workers, while the overall architecture remained the same. The new setup makes the system easier to scale and manage as workloads increase.
+
+Read more about the architecture and implementation in the [blog post](https://ni3rav.me/blogs/my-attempt-to-creating-an-audio-streaming-pipeline).

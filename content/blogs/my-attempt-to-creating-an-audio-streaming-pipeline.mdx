@@ -77,6 +77,8 @@ Cloudflare R2 was a no-brainer for me due to their generous free tier and zero e
 
 ## Azure Container Instance (ACI) as the Worker
 
+> PS: This part of the ACI setup was based on the older architecture. I have now migrated the worker to Azure Container Apps Jobs (ACA Jobs), which only required a few changes in how the payload (audio file information) and certain environment variables are passed from the trigger to the worker. The rest of the architecture remains exactly the same. The system can now process 5 audio files concurrently, and this limit can be increased easily.
+
 Now this dude is responsible for doing the actual heavy-lifting for this project, that is downloading and converting audio into various bitrates.
 
 Once the user is done uploading their file, the backend has to trigger this guy and ask it to do the following things:
