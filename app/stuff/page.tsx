@@ -22,7 +22,7 @@ const items = [
     description:
       "a simple webpage that plays some of my favourite songs that match the vibes of vice city.",
     links: [
-      { label: "live", href: "https://viceplay.ni3rav.me" },
+      { label: "live", href: "https://viceplay.niravv.me" },
       { label: "source", href: "https://github.com/ni3rav/vice-play" },
     ],
   },
@@ -31,7 +31,7 @@ const items = [
     description:
       "a simple utility to change your wallpaper's colour theme to popular ones like catppuccin, dracula, tokyonight, nord, gruvbox in a single click.",
     links: [
-      { label: "live", href: "https://woila.ni3rav.me" },
+      { label: "live", href: "https://woila.niravv.me" },
       { label: "source", href: "https://github.com/ni3rav/woila" },
     ],
   },

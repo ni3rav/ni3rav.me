@@ -2,11 +2,10 @@ import type { Metadata } from "next";
 
 const siteConfig = {
   name: "ni3rav",
-  title: "ni3rav.me",
-  description:
-    "messing around and finding out, i guess ?",
-  url: "https://ni3rav.me",
-  ogImage: "https://ni3rav.me/og.png",
+  title: "niravv.me",
+  description: "messing around and finding out, i guess ?",
+  url: "https://niravv.me",
+  ogImage: "https://niravv.me/og.png",
   author: {
     name: "Nirav Mehta",
     email: "niravv1405@gmail.com",

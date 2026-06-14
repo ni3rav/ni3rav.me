@@ -11,7 +11,7 @@ Hello everyone!
 
 It's been a while since I wrote my last blog. I was busy with some personal projects and learning new things. But now I'm back with a new blog post and a revamped portfolio/blog website.
 
-While working on my project [sentio](https://sentio.ni3rav.me), I thought of implementing keyboard shortcuts for various tasks like changing the theme of the editor, changing the font size, etc. I considered using a third-party library, but then I thought, why not implement it from scratch since the complexity of my app isn't that high? It should be easy to do so.
+While working on my project [sentio](https://sentio.niravv.me), I thought of implementing keyboard shortcuts for various tasks like changing the theme of the editor, changing the font size, etc. I considered using a third-party library, but then I thought, why not implement it from scratch since the complexity of my app isn't that high? It should be easy to do so.
 
 Alright, let's get started. The first thing we need to do is listen for keyboard events. In React, we can do that using the `useEffect` hook. We can add an event listener for the `keydown` event and then remove it when the component unmounts. This approach is fine, but the issue is that we have to write code again and again for each different shortcut, and it's never good to repeat yourself while coding. So, we should think of an alternative approach.
 

@@ -14,44 +14,42 @@ const colors = {
 
 export function generateOgImage() {
   return new ImageResponse(
-    (
+    <div
+      style={{
+        height: "100%",
+        width: "100%",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: colors.base,
+        position: "relative",
+      }}
+    >
+      {/* Dashed border frame */}
       <div
         style={{
-          height: "100%",
-          width: "100%",
+          position: "absolute",
+          top: 40,
+          left: 40,
+          right: 40,
+          bottom: 40,
+          border: `1px dashed ${colors.muted}`,
           display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          backgroundColor: colors.base,
-          position: "relative",
+        }}
+      />
+
+      <div
+        style={{
+          display: "flex",
+          fontSize: 72,
+          fontWeight: 700,
+          color: colors.text,
+          letterSpacing: "-0.02em",
         }}
       >
-        {/* Dashed border frame */}
-        <div
-          style={{
-            position: "absolute",
-            top: 40,
-            left: 40,
-            right: 40,
-            bottom: 40,
-            border: `1px dashed ${colors.muted}`,
-            display: "flex",
-          }}
-        />
-
-        <div
-          style={{
-            display: "flex",
-            fontSize: 72,
-            fontWeight: 700,
-            color: colors.text,
-            letterSpacing: "-0.02em",
-          }}
-        >
-          ni3rav.me
-        </div>
+        niravv.me
       </div>
-    ),
-    ogImageSize
+    </div>,
+    ogImageSize,
   );
 }

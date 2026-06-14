@@ -2,4 +2,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://ni3rav.me/sitemap.xml
+Sitemap: https://niravv.me/sitemap.xml

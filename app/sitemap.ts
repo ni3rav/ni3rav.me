@@ -5,7 +5,7 @@ import { getAllProjects } from "@/lib/getProjects";
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl =
     process.env.NODE_ENV === "production"
-      ? "https://ni3rav.me"
+      ? "https://niravv.me"
       : "http://localhost:3000";
 
   const blogs = getAllBlogs();

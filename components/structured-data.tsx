@@ -3,8 +3,8 @@ export function PersonStructuredData() {
     "@context": "https://schema.org",
     "@type": "Person",
     name: "Nirav Mehta",
-    url: "https://ni3rav.me",
-    image: "https://ni3rav.me/hero.jpeg",
+    url: "https://niravv.me",
+    image: "https://niravv.me/hero.jpeg",
     jobTitle: "Fullstack Developer",
     description:
       "Fullstack developer and computer science student at Adani University",
@@ -43,7 +43,7 @@ export function WebsiteStructuredData() {
     "@context": "https://schema.org",
     "@type": "WebSite",
     name: "Nirav Mehta",
-    url: "https://ni3rav.me",
+    url: "https://niravv.me",
     description:
       "Portfolio and blog of Nirav Mehta - Fullstack developer and computer science student",
     author: {
@@ -81,19 +81,19 @@ export function BlogPostStructuredData({
     "@type": "BlogPosting",
     headline: title,
     description: description,
-    image: image || "https://ni3rav.me/opengraph-image",
+    image: image || "https://niravv.me/opengraph-image",
     datePublished: datePublished,
     author: {
       "@type": "Person",
       name: author,
-      url: "https://ni3rav.me",
+      url: "https://niravv.me",
     },
     publisher: {
       "@type": "Person",
       name: author,
-      url: "https://ni3rav.me",
+      url: "https://niravv.me",
     },
-    url: `https://ni3rav.me${url}`,
+    url: `https://niravv.me${url}`,
   };
 
   return (
