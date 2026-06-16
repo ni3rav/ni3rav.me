@@ -1,5 +1,4 @@
 import Navbar from "@/components/navbar";
-import Image from "next/image";
 import Link from "next/link";
 import { skills, experiences, achievements } from "@/content/about-me";
 import { constructMetadata } from "@/lib/metadata";
@@ -27,7 +26,7 @@ export default function AboutMe() {
       <div className="w-full border-t border-dashed border-base02" />
 
       {/* Bio */}
-      <section className="py-10 grid grid-cols-1 md:grid-cols-[1fr_auto] gap-10">
+      <section className=" text-justify py-10 grid grid-cols-1 md:grid-cols-[1fr_auto] gap-10">
         <div>
           <div className="space-y-4 text-sm text-muted-foreground leading-relaxed">
             <p>
@@ -41,11 +40,7 @@ export default function AboutMe() {
               programming domains, i discovered my true passion in web
               development.
             </p>
-            <p className="italic">
-              when i&apos;m not coding, you can find me watching cat videos
-              because i like cats.
-            </p>
-          </div>
+         </div>
           <div className="mt-6">
             <Link
               href="/resume.pdf"
@@ -53,18 +48,6 @@ export default function AboutMe() {
             >
               view resume →
             </Link>
-          </div>
-        </div>
-        <div className="flex justify-center md:justify-end">
-          <div className="relative w-[180px] h-[220px]">
-            <div className="dashed-border absolute top-[-8px] right-[-8px] w-full h-full" />
-            <Image
-              src="/hero.jpeg"
-              alt="Nirav profile"
-              width={180}
-              height={220}
-              className="relative z-10 object-cover w-full h-full"
-            />
           </div>
         </div>
       </section>
