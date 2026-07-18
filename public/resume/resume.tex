@@ -63,7 +63,7 @@
 \makeatother
 %\pagestyle{customFooterStyle}
 
-\titleformat{\section}{\needspace{4\baselineskip}\bfseries\large}{}{0pt}{}[\vspace{1pt}\titlerule]
+\titleformat{\section}{\needspace{4\baselineskip}\bfseries\large}{}{0pt}{}[\vspace{1pt}\hrule height 0.25pt]
 
 \titlespacing{\section}{
     % left space:
@@ -189,26 +189,6 @@
 
     \vspace{0.04 cm}
 
-    \iffalse
-    \section{Quick Guide}
-
-    \begin{onecolentry}
-        \begin{highlightsforbulletentries}
-
-
-        \item Each section title is arbitrary and each section contains a list of entries.
-
-        \item There are 7 unique entry types: \textit{BulletEntry}, \textit{TextEntry}, \textit{EducationEntry}, \textit{ExperienceEntry}, \textit{NormalEntry}, \textit{PublicationEntry}, and \textit{OneLineEntry}.
-
-        \item Select a section title, pick an entry type, and start writing your section!
-
-        \item \href{https://docs.rendercv.com/user_guide/}{Here}, you can find a comprehensive user guide for RenderCV.
-
-
-        \end{highlightsforbulletentries}
-    \end{onecolentry}
-    \fi
-
     \section{Education}
 
         
@@ -232,31 +212,8 @@
 
 
     % \section{Experience}
+    % (empty for now — add current internship here)
 
-
-
-        
-    %     \begin{twocolentry}{
-    %     \textit{Remote}    
-            
-    %     \textit{June 2025 – Aug 2025}}
-    %         \textbf{Software Engineer Intern}
-            
-    %         \textit{Toucan Labs}
-    %     \end{twocolentry}
-
-    %     \vspace{0.06 cm}
-    %     \begin{onecolentry}
-    %         \begin{highlights}
-    %             \item Architected and deployed a full-stack, enterprise-grade observability platform using Grafana Cloud, leveraging OpenTelemetry standards to provide unified logging (Loki), metrics (Prometheus/Mimir), and Application Performance Monitoring (APM) with distributed tracing (Tempo).
-                
-    %             \item Designed and implemented a centralized notifications system, including an in-app notification center, Firebase push notifications, and an admin announcement panel, delivering real-time updates with 98\%+ delivery success.
-                
-    %             \item Deployed and managed the full production stack (frontend, backend, MongoDB) on a VPS using Dokploy, with rolling blue-green deployments and a GitHub Actions CI/CD pipeline, enabling fully-automated zero-downtime releases.
-    %         \end{highlights}
-    %     \end{onecolentry}
-
-        
     \section{Skills}
 
 
@@ -269,7 +226,7 @@
         \vspace{0.12 cm}
 
         \begin{onecolentry}
-            \textbf{Tools:} Git, GitHub, Linux, Docker, Google Cloud Platform (GCP), Azure, CI/CD, Zsh, Agile, SDLC
+            \textbf{Tools:} Git, GitHub, Linux, Docker, Google Cloud Platform (GCP), Azure, CI/CD, Zsh, Agile, SDLC, PostgreSQL, Drizzle ORM, Turborepo, Message Queues
         \end{onecolentry}
 
 %----------------------------------------------------------------------------------------
@@ -287,10 +244,11 @@
 \vspace{0.06 cm}
 \begin{onecolentry}
     \begin{highlights}
-        \item Built a multi-tenant headless CMS for structured content and metadata with clean, framework-agnostic REST API access.
-        \item Redesigned system architecture for clearer schema modeling, reliable CRUD operations, and improved developer experience.
-        \item Implemented content models, revision tracking, metadata pipelines, and technical documentation.
-        \item \textbf{Tech:} TypeScript, React, ShadCN, TailwindCSS, Express.js, PostgreSQL, Drizzle ORM.
+        \item Architected a Turborepo-based, multi-tenant headless CMS with workspace RBAC, team invitations, and a versioned, API-key-authenticated public REST API.
+        \item Published \texttt{hive-cms}, a type-safe Node.js SDK on npm that gives client applications typed API access without hand-written HTTP requests.
+        \item Added Gemini-assisted TipTap tools for tone, grammar, rewriting, and content analysis with encrypted bring-your-own-key storage.
+        \item Built presigned Cloudflare R2 media uploads with asynchronous Azure Functions thumbhash generation.
+        \item \textbf{Tech:} TypeScript, React 19, Vite, TanStack Query, TipTap, Radix UI, Tailwind CSS, Express 5, Drizzle ORM, PostgreSQL, Turborepo, Azure Functions.
     \end{highlights}
 \end{onecolentry}
 
@@ -306,10 +264,10 @@
 \vspace{0.06 cm}
 \begin{onecolentry}
     \begin{highlights}
-        \item Built an adaptive bitrate audio streaming platform with an automated pipeline for media upload, transcoding, storage, and delivery.
-        \item Engineered a distributed media processing workflow using Azure Container Apps Jobs, FFmpeg, Cloudflare R2, and Neon Postgres for scalable background transcoding.
-        \item Implemented job orchestration, status tracking, failure handling, and automated cleanup to ensure reliable audio processing and asset management.
-        \item \textbf{Tech:} TypeScript, ElysiaJS, FFmpeg, Azure Container Apps Jobs, Cloudflare R2, Neon Postgres.
+        \item Engineered an event-driven audio pipeline using direct presigned R2 uploads, Azure Service Bus, and KEDA-autoscaled Container Apps Jobs that scale from zero.
+        \item Replaced polling with queue-driven FFmpeg transcoding across four HLS renditions, including retries, abandon semantics, and dead-letter handling.
+        \item Shipped authenticated worker callbacks, scheduled orphan-job cleanup, and adaptive-bitrate hls.js playback with in-player quality switching.
+        \item \textbf{Tech:} TypeScript, Next.js, ElysiaJS, Better Auth, Azure Service Bus, Azure Container Apps Jobs + KEDA, FFmpeg, Cloudflare R2, PostgreSQL (Neon), GitHub Actions/GHCR.
     \end{highlights}
 \end{onecolentry}
 
@@ -325,9 +283,8 @@
 \vspace{0.06 cm}
 \begin{onecolentry}
     \begin{highlights}
-        \item Built an anonymous community platform with topic-based boards, content discovery, voting, and moderation capabilities.
-        \item Designed a full-stack architecture using Next.js, ElysiaJS, and Neon Postgres with secure authentication and role-based access control.
-        \item Implemented ranking algorithms, real-time content interactions, and administrative tooling for scalable community management.
+        \item Built an anonymous community platform with topic boards, content discovery, voting, moderation workflows, and ranking algorithms.
+        \item Designed a Next.js, ElysiaJS, and Neon Postgres architecture with secure authentication, RBAC, real-time interactions, and scalable administrative tooling.
         \item \textbf{Tech:} TypeScript, Next.js, ElysiaJS, Neon Postgres, Drizzle ORM, Redis.
     \end{highlights}
 \end{onecolentry}
@@ -344,9 +301,8 @@
 \vspace{0.06 cm}
 \begin{onecolentry}
     \begin{highlights}
-        \item Implemented a lightweight React-like library with a Virtual DOM, Fiber reconciliation, and incremental rendering architecture.
-        \item Added JSX support via esbuild, along with a hot-reload development server and production build pipeline.
-        \item Built custom renderer logic, diffing algorithm, and core DOM reconciliation for frontend performance optimization.
+        \item Implemented a React-like library with Virtual DOM, Fiber reconciliation, incremental rendering, and custom DOM diffing.
+        \item Built the renderer and reconciliation lifecycle, then added JSX support via esbuild with a hot-reload development server and production build pipeline.
         \item \textbf{Tech:} JavaScript, esbuild.
     \end{highlights}
 \end{onecolentry}
@@ -365,8 +321,7 @@
 \vspace{0.06 cm}
 \begin{onecolentry}
     \begin{highlights}
-        \item Leading ASPDC initiatives, managing technical events, workshops, and community programs that support software engineering and developer growth across the university.
-        \item Mentoring students on real-world software development, version control best practices, and project planning.
+        \item Lead technical events, workshops, community programs, and student mentoring in software development, version control, and project planning.
     \end{highlights}
 \end{onecolentry}
 
@@ -374,28 +329,14 @@
 
 % ================= WORKSHOPS =================
 \begin{twocolentry}{
-\textit{Sept 2025}}
-\textbf{Git and GitHub Workshop Instructor}
+\textit{Aug 2025 -- Sept 2025}}
+\textbf{Git/GitHub and Web Development Workshop Instructor}
 \end{twocolentry}
 
 \vspace{0.06 cm}
 \begin{onecolentry}
     \begin{highlights}
-        \item Conducted a three-hour hands-on workshop teaching Git fundamentals, GitHub workflows, branching strategies, pull requests, and collaborative development.
-    \end{highlights}
-\end{onecolentry}
-
-\vspace{0.12 cm}
-
-\begin{twocolentry}{
-\textit{Aug 2025}}
-\textbf{Web Development Bootcamp Instructor}
-\end{twocolentry}
-
-\vspace{0.06 cm}
-\begin{onecolentry}
-    \begin{highlights}
-        \item Delivered a full-day bootcamp covering HTML, CSS, JavaScript, responsive web design, and core modern web development foundations for beginners.
+        \item Led a three-hour Git/GitHub workshop and a full-day HTML, CSS, JavaScript, and responsive web development bootcamp.
     \end{highlights}
 \end{onecolentry}
 
@@ -410,7 +351,7 @@
 \vspace{0.06 cm}
 \begin{onecolentry}
     \begin{highlights}
-        \item Secured first place for building Roadsafe, a real-time accident reporting and community awareness platform developed in a 24-hour hackathon under rapid prototyping constraints.
+        \item Won first place for Roadsafe, a real-time accident reporting and community awareness platform built during a 24-hour hackathon.
     \end{highlights}
 \end{onecolentry}
 
