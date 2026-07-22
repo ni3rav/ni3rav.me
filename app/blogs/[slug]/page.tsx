@@ -117,7 +117,7 @@ export default async function BlogPost({
 
           <hr className="dashed my-10" />
 
-          <p className="text-xs text-muted-foreground text-right">
+          <p className="text-xs text-muted-foreground text-right mt-1">
             written by{" "}
             <span className="text-foreground">{data.author}</span>
           </p>

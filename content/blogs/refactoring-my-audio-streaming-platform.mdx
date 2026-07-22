@@ -1,0 +1,200 @@
+---
+title: "An attempt to improve my Audio Streaming Pipeline (Part 2)"
+date: "2026-07-22"
+tags: ["audio", "streaming", "pipeline", "architecture", "system-design"]
+image: "/blogs/vessel-refactor-cover.png"
+author: "Nirav"
+description: "A quick blog to outline how I handled refactoring of my audio streaming platform to a better architecture"
+---
+
+> TL;DR Simple HTTP based callbacks are fragile, use queues.
+
+Hey Everyone!
+
+This blog is a continuation of my previous blog where I demonstrated how I built my adaptive audio streaming platform [Vessel](https://vessel.niravv.me). If you've read the [blog](/blogs/my-attempt-to-creating-an-audio-streaming-pipeline) you might recall that I described some shortcomings and architectural flaws, which were as follows:
+
+1. Chained coupling of services
+2. Lack of worker orchestration
+3. No retry mechanism
+4. Improvements on frontend
+
+If you couldn't recall then I'd strongly suggest you read the [previous blog](/blogs/my-attempt-to-creating-an-audio-streaming-pipeline) once more (such a shameless plug) but if you did then let's start addressing _elephants in the room_ one by one.
+
+So brace yourselves.
+
+## Picking a Queue
+
+The main thing here was to introduce some sort of queue, and it would simply solve problems 1 to 3. As I described previously, the worker and trigger function were hosted on Azure, so it was natural for me to look into offerings provided by Azure itself. That left me with two options:
+
+1. Azure Queue Storage
+2. Azure Service Bus
+
+Azure Queue Storage
+
+* Simple message queue service
+* No built-in Dead-Letter Queue (requires custom handling)
+* Best-effort message ordering (FIFO not guaranteed)
+* Maximum message size: 64 KB
+* Queue size limited by the storage account capacity
+* No publish/subscribe support
+* No transaction support
+
+Azure Service Bus
+
+* Full messaging service
+* Built-in Dead-Letter Queue (DLQ)
+* Guaranteed FIFO ordering using Message Sessions
+* Maximum message size: Up to 100 MB (Premium tier)
+* Up to 1 TB per queue
+* Supports publish/subscribe through Topics and Subscriptions
+* Supports transactions
+
+To my use case, the following features didn't matter:
+
+1. Ordering/FIFO, because all the audio files are mutually exclusive and none of them depend on another
+2. Message size, because I was just passing a few bytes of JSON that contained the link to the audio and some metadata which was required by the worker to ping back the backend
+
+And the following features were what actually mattered:
+
+1. Dead-Letter Queue
+2. Built-in retry/failure handling
+
+Thus I went with Azure Service Bus (Basic tier, because I only have $90 left in my Azure credits and I have five other things deployed on Azure that need to survive till May next year lol).
+
+## The New Architecture
+
+With the Service Bus, the new architecture looked something like this
+
+```text
+Browser
+   │
+   │ 1. Presigned PUT
+   ▼
+Cloudflare R2
+   │
+   │ 2. POST /api/upload/complete
+   ▼
+Web API
+   │
+   │ 3. publish job
+   ▼
+Azure Service Bus Queue
+   │
+   │ 4. queue depth > 0
+   ▼
+KEDA (auto-scaler)
+   │
+   │ 5. spins up
+   ▼
+ACA Job (worker)
+   │
+   ├── 6. transcode (ffmpeg)
+   ├── 7. upload HLS chunks ──► R2
+   └── 8. callback ──► Postgres (status: ready/failed)
+```
+
+And the message settlement would go something like this
+
+```text
+                Worker picks up message (PeekLock)
+                               │
+                     Run ffmpeg + upload to R2
+                               │
+      ┌────────────────────────┼────────────────────────┐
+      │                        │                        │
+   Success              Transient failure          Permanent failure
+(callback 200 OK)      (network blip, timeout)   (corrupt file, bad schema)
+      │                        │                         │
+      ▼                        ▼                         ▼
+completeMessage()        abandonMessage()           deadLetterMessage()
+      │                        │                         │
+      ▼                        ▼                         ▼
+   exit(0)             back on queue, retried      moves to DLQ, no retry
+```
+
+## Goodbye ACI, Hello ACA Jobs
+
+Now, quick callback. In the previous blog I mentioned I was using Azure Container Instances (ACI) for the worker. That has changed.
+
+I've shifted to Azure Container Apps Jobs (ACA Jobs) because they integrate well with Azure Service Bus, and this let me completely get rid of the Azure Function that was just there to plumb pieces together. ACA Jobs also has orchestration built in through KEDA, so I again saved myself from writing manual orchestration logic (it was really tempting to write one myself but maybe I'm just too lazy meh).
+
+So what is KEDA?
+
+KEDA (Kubernetes Event-Driven Autoscaling) watches an event source, in my case the Service Bus queue, and scales compute based on it. As soon as queue depth goes above 0, KEDA spins up an ACA Job worker to consume messages, and once the queue is empty it scales workers back down to zero.
+
+## The Exact Config
+
+Here's the exact config I'm running right now:
+
+Service Bus (transcode-jobs queue)
+  Max Delivery Count: 10
+  Lock Duration: 5 minutes
+  Message TTL: 14 days
+
+ACA Job (vessel-worker-job)
+  Replica Retry Limit: 0
+  Replica Timeout: 3600 seconds (1 hour)
+  Max Executions (via KEDA): 10
+
+Legacy ACI (vessel-worker, decommissioned)
+  Restart Policy: Never
+
+SDK-level (@azure/service-bus, apps/worker + apps/web)
+  Max Retries: 3 (Azure SDK default, unmodified)
+  Retry Delay: 1000ms base, exponential backoff
+
+Max Delivery Count is how many times Service Bus will redeliver the same message before giving up. Every abandon or expired lock counts against it. Mine's set to 10, so a job gets 10 shots before it's dead-lettered.
+
+Lock Duration is how long a worker holds an exclusive lock on a message. I bumped this to 5 minutes so ffmpeg has enough room to actually finish before the lock expires and some other worker picks up the same job.
+
+Message TTL is how long an unprocessed message can sit in the queue before Service Bus drops it. 14 days is the default. My jobs get picked up in seconds so this barely matters, but no reason to touch it.
+
+Replica Retry Limit on the ACA Job is 0. I don't want ACA retrying a crashed container on its own, all retries go through Service Bus instead.
+
+Replica Timeout is 1 hour, the max a worker instance can run before ACA kills it. Just a safety net.
+
+Max Executions caps KEDA at 10 concurrent workers. Keeps things from scaling wild if a bunch of uploads land at once.
+
+Fun fact, the old ACI setup also had its restart policy set to Never. So it's not like I added retries at the infra level here, retries just moved to the queue where I can actually see them.
+
+## Rollbacks and Cleanup
+
+But publishing to Service Bus can fail too. If that happens after I've already written a Postgres record and uploaded the source file to R2, I'd end up with a ghost row and an orphaned file sitting in my bucket for nothing.
+
+So there's a small rollback function, handlePublishFailure, that runs whenever the publish call fails. It does two things:
+
+1. Marks the Postgres record as failed
+2. Deletes the uploaded source file from R2
+
+Both actions are isolated from each other, so even if one of them fails too, it doesn't take the other down with it.
+
+Quick note on cron too. In the old setup there was a separate apps/cron app that ran on its own schedule to clean up stale uploads, ones stuck in processing past a safe time limit, or ones that had already failed. It'd delete the leftover files from R2 and remove the dead rows from Postgres so nothing just sat there forever.
+
+That standalone app is gone now. The cleanup logic moved into apps/web itself, behind a secured internal route (/api/cron/cleanup). Same job, just one less app to deploy and maintain separately. Kudos to vercel for providing easy setup in the NextJS itself.
+
+## Frontend Changes
+
+A few things changed on the frontend too, though like I said in the first blog, this isn't really a frontend-focused writeup so I'll keep it short.
+
+Player used to be tied to whatever page you were browsing, so navigating around would interrupt playback. It's now a decoupled dock that stays put and keeps playing while you browse, search, or manage your library.
+
+Speaking of which, search and track deletion are both in now. Deleting a track cleans up both the Postgres row and the R2 objects.
+
+Also switched auth over to GitHub OAuth (I really have no justifications for this choice of mine).
+
+So now the final flow looks something like this:
+![vessel updated architecture](/blogs/vessel-refactor-cover.png)
+
+## What's Still Not Great
+
+Now let's talk about what's still not great, because this refactor didn't fix everything.
+
+The worker still calls out over HTTP to `/api/internal/worker-callback` once it's done, to update Postgres. If that request drops or times out after ffmpeg has already finished, the worker has no way of knowing the work actually succeeded. It just calls abandonMessage(), the message goes back on the queue, and the next worker picks it up and re-transcodes the entire file from scratch. All that CPU time, wasted, because of an HTTP call at the very last step.
+
+The callback endpoint itself is also sitting on the public internet. It has to be, since the worker needs to reach it. That means I'm relying on shared secrets (x-worker-secret and x-job-secret) to make sure nobody can spoof a status update, which works, but it's one more thing I have to keep validating correctly forever.
+
+And since that callback hits a serverless route on Vercel, it's subject to cold starts and execution timeouts. Under enough load, or if the DB connection is slow for whatever reason, that callback could time out too, which just loops back into the same re-transcode problem above. Under enough load being a funny thing to say when the load currently consists of me and maybe 2 friends who remembered this exists.
+
+So yeah, the HTTP callback is basically the one seam I haven't managed to fully queue-ify yet. But that's fine for now honestly. If a job really does end up permanently stuck, cron eventually sweeps it up and cleans out the R2 files and the DB row so it doesn't just rot there forever. Doesn't save the wasted compute, but at least nothing is phantom in there.
+
+Alright so that's all for now, see y'all in the next one!

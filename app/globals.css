@@ -157,6 +157,11 @@ hr.dashed {
   @apply px-1.5 py-0.5 rounded text-sm bg-surface text-purple;
 }
 
+.prose code::before,
+.prose code::after {
+  content: "" !important;
+}
+
 /* Code block styles */
 .prose pre {
   @apply my-6 rounded-lg overflow-x-auto;

@@ -149,6 +149,12 @@ const config: Config = {
           css: {
             maxWidth: "100%",
             fontFamily: "JetBrains Mono, monospace",
+            "code::before": {
+              content: '""',
+            },
+            "code::after": {
+              content: '""',
+            },
           },
         },
       },
