@@ -31,7 +31,7 @@ export default function AboutMe() {
           <div className="space-y-4 text-sm text-muted-foreground leading-relaxed">
             <p>
               hello! i&apos;m nirav, a fullstack developer and computer science
-              junior at Adani University. i specialize in building modern web
+              senior at Adani University. i specialize in building modern web
               applications using React, Next.js, and TypeScript.
             </p>
             <p>
@@ -80,6 +80,27 @@ export default function AboutMe() {
 
       <div className="w-full border-t border-dashed border-base02" />
 
+      {/* Experience */}
+      <section className="py-10" id="experience">
+        <h2 className="text-sm font-medium mb-6">experience</h2>
+        <div className="space-y-6">
+          {experiences.map((experience, index) => (
+            <div key={index} className="dashed-border-l pl-5 relative">
+              <div className="absolute w-1.5 h-1.5 bg-blue rounded-full left-[-4px] top-1.5" />
+              <h3 className="text-sm font-medium">{experience.title}</h3>
+              <p className="text-xs text-blue mb-1">
+                {experience.company} · {experience.period}
+              </p>
+              <p className="text-xs text-muted-foreground leading-relaxed">
+                {experience.description}
+              </p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <div className="w-full border-t border-dashed border-base02" />
+
       {/* Achievements */}
       <section className="py-10" id="achievements">
         <h2 className="text-sm font-medium mb-6">achievements</h2>
@@ -107,27 +128,6 @@ export default function AboutMe() {
 
       <div className="w-full border-t border-dashed border-base02" />
 
-      {/* Experience */}
-      <section className="py-10" id="experience">
-        <h2 className="text-sm font-medium mb-6">experience</h2>
-        <div className="space-y-6">
-          {experiences.map((experience, index) => (
-            <div key={index} className="dashed-border-l pl-5 relative">
-              <div className="absolute w-1.5 h-1.5 bg-blue rounded-full left-[-4px] top-1.5" />
-              <h3 className="text-sm font-medium">{experience.title}</h3>
-              <p className="text-xs text-blue mb-1">
-                {experience.company} · {experience.period}
-              </p>
-              <p className="text-xs text-muted-foreground leading-relaxed">
-                {experience.description}
-              </p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <div className="w-full border-t border-dashed border-base02" />
-
       {/* Education */}
       <section className="py-10">
         <h2 className="text-sm font-medium mb-6">education</h2>
@@ -140,13 +140,15 @@ export default function AboutMe() {
             Adani University · 2023 – 2027
           </p>
           <p className="text-xs text-muted-foreground">
-            <span className="font-medium text-foreground">CGPA:</span> 7.73 (As
-            of Semester 4)
+            <span className="font-medium text-foreground">CGPA:</span> 7.69
+            (through Semester 6)
           </p>
           <p className="text-xs text-muted-foreground mt-1">
             <span className="font-medium text-foreground">Coursework:</span>{" "}
-            Data Structures, Algorithms, DBMS, Computer Networks, Operating
-            Systems
+            Database Management Systems (DBMS), Operating Systems, Data
+            Structures and Algorithms, Object-Oriented Programming (OOP),
+            Computer Networks, Machine Learning, Deep Learning, Distributed
+            Computing, IoT
           </p>
         </div>
       </section>

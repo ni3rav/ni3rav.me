@@ -85,7 +85,7 @@ export default function Home() {
               <ArrowUpRight className="h-3 w-3" />
             </Link>
           ))}
-          <ThemeToggle />
+          <ThemeToggle variant="text" />
         </div>
       </section>
     </main>

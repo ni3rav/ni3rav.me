@@ -37,9 +37,17 @@ export const achievements = [
 
 export const experiences = [
   {
+    title: "Software Development Intern",
+    company: "Noovosoft Technologies LLP",
+    period: "June 2026 - July 2026",
+    description:
+      "Built an internal post-deployment script management tool during a company hackathon to streamline release workflows. Also refactored the legacy PHP/HTML UI of an internal POS system into a modern React-based interface.",
+  },
+
+  {
     title: "President",
     company: "Adani Student Programming Developement Club",
-    period: "August 2025 - Present",
+    period: "August 2025 - August 2026",
     description:
       "As the President of the Adani Student's Programming and Development Club (ASPDC), I am dedicated to leading the club toward a successful future. My focus is on fostering a vibrant community of aspiring developers and enhancing their skills through engaging experiences and initiatives.",
   },
@@ -47,7 +55,7 @@ export const experiences = [
   {
     title: "Web Developement Domain Head",
     company: "Adani Student Programming Developement Club",
-    period: "August 2024 - Present",
+    period: "August 2024 - August 2025",
     description:
       "As the Web Development Domain Head for the Adani Student's Programming and Development Club (ASPDC), I spearheaded various initiatives, including organizing a Tailwind CSS workshop and leading engaging events like CodeCharades, a unique twist on traditional charades focused on frontend coding challenges. Additionally, I played a pivotal role as a core committee member for Hackspire'25, a 24-hour hackathon that fostered innovation and collaboration among participants.",
   },
